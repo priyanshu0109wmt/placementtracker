@@ -1,4 +1,5 @@
 const Job = require('../models/Job');
+const Application = require('../models/Application');
 const {
   validateJobInput,
   formatJobInput,
@@ -39,6 +40,25 @@ const createJob = async (req, res) => {
   }
 };
 
+const getAllJobs = async (req, res) => {
+  try {
+    const jobs = await Job.findAllJobs();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Jobs fetched successfully',
+      count: jobs.length,
+      jobs,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch jobs',
+      error: process.env.NODE_ENV === 'production' ? undefined : error.message,
+    });
+  }
+};
+
 const getOwnJobs = async (req, res) => {
   try {
     const jobs = await Job.findJobsByRecruiterId(req.user.id);
@@ -53,6 +73,46 @@ const getOwnJobs = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to fetch recruiter jobs',
+      error: process.env.NODE_ENV === 'production' ? undefined : error.message,
+    });
+  }
+};
+
+const getOwnJobApplications = async (req, res) => {
+  try {
+    const job = await Job.findJobById(req.params.jobId);
+
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: 'Job not found',
+      });
+    }
+
+    if (!isOwnJob(job, req.user.id)) {
+      return res.status(403).json({
+        success: false,
+        message: 'You can only view applications for your own jobs',
+      });
+    }
+
+    const applications = await Application.findApplicationsByJobId(job.id);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Job applications fetched successfully',
+      count: applications.length,
+      job: {
+        id: job.id,
+        title: job.title,
+        company_name: job.company_name,
+      },
+      applications,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch job applications',
       error: process.env.NODE_ENV === 'production' ? undefined : error.message,
     });
   }
@@ -140,7 +200,9 @@ const deleteOwnJob = async (req, res) => {
 
 module.exports = {
   createJob,
+  getAllJobs,
   getOwnJobs,
+  getOwnJobApplications,
   updateOwnJob,
   deleteOwnJob,
 };

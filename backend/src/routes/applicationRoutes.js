@@ -5,6 +5,13 @@ const authorizeRoles = require('../middleware/roleMiddleware');
 
 const router = express.Router();
 
+router.put(
+  '/:applicationId/status',
+  protect,
+  authorizeRoles('recruiter'),
+  applicationController.updateApplicationStatus
+);
+
 router.use(protect);
 router.use(authorizeRoles('student'));
 

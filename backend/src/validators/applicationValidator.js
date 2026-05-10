@@ -4,6 +4,8 @@ const isPositiveInteger = (value) => {
   return Number.isInteger(numberValue) && numberValue > 0;
 };
 
+const allowedApplicationStatuses = ['shortlisted', 'rejected', 'accepted'];
+
 const isValidResumeLink = (value) => {
   if (typeof value !== 'string' || !value.trim()) {
     return false;
@@ -47,7 +49,19 @@ const formatApplicationInput = (data) => ({
   coverLetter: data.cover_letter ? String(data.cover_letter).trim() : null,
 });
 
+const validateApplicationStatusInput = (data) => {
+  const errors = [];
+
+  if (!data.status || !allowedApplicationStatuses.includes(data.status)) {
+    errors.push('Status must be shortlisted, rejected, or accepted');
+  }
+
+  return errors;
+};
+
 module.exports = {
+  allowedApplicationStatuses,
   validateApplicationInput,
+  validateApplicationStatusInput,
   formatApplicationInput,
 };

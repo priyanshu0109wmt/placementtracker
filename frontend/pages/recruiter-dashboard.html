@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recruiter Dashboard | PLCTR</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard-page recruiter-dashboard-page" data-required-role="recruiter">
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="brand" href="../index.html">PLCTR</a>
+      <div class="nav-links">
+        <a href="./jobs.html">Jobs</a>
+        <a href="./profile.html">Profile</a>
+        <button class="btn btn-secondary btn-small" id="logoutButton" type="button">Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-shell container">
+    <section class="dashboard-welcome">
+      <div>
+        <p class="eyebrow">Recruiter Dashboard</p>
+        <h1>Welcome, <span id="userName">Recruiter</span></h1>
+        <p>Manage job posts, view applicants, and follow hiring progress.</p>
+      </div>
+
+      <div class="user-summary">
+        <span id="userRole">recruiter</span>
+        <strong id="userEmail">recruiter@example.com</strong>
+      </div>
+    </section>
+
+    <div class="dashboard-layout">
+      <aside class="dashboard-sidebar">
+        <p class="eyebrow">Hiring Suite</p>
+        <a href="./recruiter-dashboard.html" class="sidebar-link active">Overview</a>
+        <a href="#job-management" class="sidebar-link">Jobs</a>
+        <a href="#applicants" class="sidebar-link">Applicants</a>
+      </aside>
+
+      <div class="dashboard-content">
+        <section class="grid">
+          <article class="card">
+            <h2>Posted Jobs</h2>
+            <p>Review your active openings and candidate activity.</p>
+          </article>
+          <article class="card">
+            <h2>Applicants</h2>
+            <p>View student applicants for jobs created by your account.</p>
+          </article>
+          <article class="card">
+            <h2>Company Profile</h2>
+            <p>Recruiter profile details will appear here.</p>
+          </article>
+        </section>
+
+    <section class="dashboard-section" id="job-management">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Job Management</p>
+          <h2>Create and Manage Jobs</h2>
+        </div>
+      </div>
+
+      <div class="message" id="recruiterJobsMessage" role="status" aria-live="polite"></div>
+
+      <section class="job-management-layout">
+        <article class="form-panel job-form-panel">
+          <h2>Create Job</h2>
+          <p>Post a new opportunity for students to discover and apply.</p>
+
+          <form class="form job-form" id="createJobForm">
+            <label for="jobTitle">Job Title</label>
+            <input id="jobTitle" name="title" type="text" placeholder="Frontend Developer Intern" required minlength="2">
+
+            <label for="companyName">Company</label>
+            <input id="companyName" name="company_name" type="text" placeholder="Acme Technologies" required minlength="2">
+
+            <label for="jobLocation">Location</label>
+            <input id="jobLocation" name="location" type="text" placeholder="Remote, Bengaluru, Delhi" required minlength="2">
+
+            <label for="jobType">Job Type</label>
+            <select id="jobType" name="job_type" required>
+              <option value="internship">Internship</option>
+              <option value="full-time">Full-time</option>
+              <option value="part-time">Part-time</option>
+              <option value="contract">Contract</option>
+            </select>
+
+            <label for="jobSalary">Salary</label>
+            <input id="jobSalary" name="salary" type="text" placeholder="6 LPA or 25000/month">
+
+            <label for="skillsRequired">Skills Required</label>
+            <input id="skillsRequired" name="skills_required" type="text" placeholder="HTML, CSS, JavaScript" required minlength="2">
+
+            <label for="applicationDeadline">Application Deadline</label>
+            <input id="applicationDeadline" name="application_deadline" type="date" required>
+
+            <label for="jobDescription">Description</label>
+            <textarea id="jobDescription" name="description" rows="4" placeholder="Describe responsibilities, eligibility, and hiring process." required minlength="10"></textarea>
+
+            <button class="btn btn-primary" id="createJobButton" type="submit">Create Job</button>
+          </form>
+        </article>
+
+        <section class="recruiter-jobs-panel">
+          <div class="recruiter-jobs-grid" id="recruiterJobsContainer">
+            <article class="card loading-card">
+              <span class="loader" aria-hidden="true"></span>
+              <p>Loading your jobs...</p>
+            </article>
+          </div>
+        </section>
+      </section>
+    </section>
+
+    <section class="dashboard-section" id="applicants">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Applicants</p>
+          <h2>Candidate Applications</h2>
+        </div>
+      </div>
+
+      <div class="message" id="recruiterApplicantsMessage" role="status" aria-live="polite"></div>
+
+      <div class="applications-grid" id="recruiterApplicantsContainer">
+        <article class="card loading-card">
+          <span class="loader" aria-hidden="true"></span>
+          <p>Loading applicants...</p>
+        </article>
+      </div>
+    </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <a class="brand" href="../index.html">PLCTR</a>
+      <p>A focused hiring workspace for recruiter teams.</p>
+    </div>
+  </footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/recruiter-jobs.js"></script>
+  <script src="../js/recruiter-applicants.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

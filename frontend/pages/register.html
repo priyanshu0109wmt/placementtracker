@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | PLCTR</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="auth-page">
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="brand" href="../index.html">PLCTR</a>
+      <div class="nav-links">
+        <a href="./jobs.html">Jobs</a>
+        <a href="./login.html">Login</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-shell container auth-shell">
+    <aside class="auth-aside">
+      <p class="eyebrow">Start with PLCTR</p>
+      <h1>Create your placement workspace.</h1>
+      <p>Choose your role and get a dashboard designed for student applications or recruiter hiring.</p>
+    </aside>
+
+    <section class="form-panel auth-card">
+      <h1>Create Account</h1>
+      <p>Register as a student or recruiter to continue to your dashboard.</p>
+
+      <div class="message" id="registerMessage" role="status" aria-live="polite"></div>
+
+      <form class="form" id="registerForm">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" name="full_name" type="text" placeholder="Your name" autocomplete="name" required>
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+          <option value="student">Student</option>
+          <option value="recruiter">Recruiter</option>
+        </select>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Create password" autocomplete="new-password" minlength="6" required>
+
+        <button class="btn btn-primary" id="registerButton" type="submit">Register</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <a class="brand" href="../index.html">PLCTR</a>
+      <p>Simple onboarding for placement teams.</p>
+    </div>
+  </footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/register.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

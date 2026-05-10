@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | PLCTR</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="profile-page">
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="brand" href="../index.html">PLCTR</a>
+      <div class="nav-links">
+        <a href="./jobs.html">Jobs</a>
+        <a href="./student-dashboard.html">Student</a>
+        <a href="./recruiter-dashboard.html">Recruiter</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-shell container auth-shell">
+    <aside class="auth-aside">
+      <p class="eyebrow">Profile</p>
+      <h1>Shape your placement identity.</h1>
+      <p>Keep your summary, headline, and basic information ready for future profile workflows.</p>
+    </aside>
+
+    <section class="form-panel auth-card">
+      <h1>Profile</h1>
+      <p>Starter profile page for student or recruiter details.</p>
+
+      <form class="form" id="profileForm">
+        <label for="displayName">Display Name</label>
+        <input id="displayName" name="displayName" type="text" placeholder="Your display name">
+
+        <label for="headline">Headline</label>
+        <input id="headline" name="headline" type="text" placeholder="Student, recruiter, or company headline">
+
+        <label for="bio">Bio</label>
+        <textarea id="bio" name="bio" rows="5" placeholder="Short profile summary"></textarea>
+
+        <button class="btn btn-primary" type="submit">Save Profile</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <a class="brand" href="../index.html">PLCTR</a>
+      <p>Professional profiles for placement workflows.</p>
+    </div>
+  </footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

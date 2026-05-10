@@ -58,6 +58,17 @@ const findJobsByRecruiterId = async (recruiterId) => {
   return rows;
 };
 
+const findAllJobs = async () => {
+  const [rows] = await pool.execute(
+    `SELECT id, recruiter_id, title, company_name, location, job_type, salary,
+      description, skills_required, application_deadline, created_at, updated_at
+     FROM jobs
+     ORDER BY created_at DESC`
+  );
+
+  return rows;
+};
+
 const updateJobById = async (id, jobData) => {
   await pool.execute(
     `UPDATE jobs
@@ -89,6 +100,7 @@ const deleteJobById = async (id) => {
 module.exports = {
   createJob,
   findJobById,
+  findAllJobs,
   findJobsByRecruiterId,
   updateJobById,
   deleteJobById,

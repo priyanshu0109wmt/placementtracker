@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | PLCTR</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="auth-page">
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="brand" href="../index.html">PLCTR</a>
+      <div class="nav-links">
+        <a href="./jobs.html">Jobs</a>
+        <a href="./register.html">Register</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-shell container auth-shell">
+    <aside class="auth-aside">
+      <p class="eyebrow">Welcome back</p>
+      <h1>Continue your placement workflow.</h1>
+      <p>Access dashboards, jobs, applications, and hiring updates from a focused workspace.</p>
+    </aside>
+
+    <section class="form-panel auth-card">
+      <h1>Login</h1>
+      <p>Login with your registered account to continue to your dashboard.</p>
+
+      <div class="message" id="loginMessage" role="status" aria-live="polite"></div>
+
+      <form class="form" id="loginForm">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="student@example.com" autocomplete="email" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
+
+        <button class="btn btn-primary" id="loginButton" type="submit">Login</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <a class="brand" href="../index.html">PLCTR</a>
+      <p>Secure access for students and recruiters.</p>
+    </div>
+  </footer>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/login.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
