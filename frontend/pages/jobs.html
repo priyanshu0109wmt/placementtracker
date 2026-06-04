@@ -24,6 +24,34 @@
       <p>Browse current placement opportunities from recruiters.</p>
     </section>
 
+    <section class="jobs-filter-panel" aria-label="Job search and filters">
+      <div class="job-search-field">
+        <label for="jobSearchInput">Search jobs</label>
+        <input
+          id="jobSearchInput"
+          type="search"
+          placeholder="Search by title or company"
+          autocomplete="off"
+        >
+      </div>
+
+      <div class="job-filter-field">
+        <label for="locationFilter">Location</label>
+        <select id="locationFilter">
+          <option value="">All locations</option>
+        </select>
+      </div>
+
+      <div class="job-filter-field">
+        <label for="jobTypeFilter">Job Type</label>
+        <select id="jobTypeFilter">
+          <option value="">All types</option>
+        </select>
+      </div>
+
+      <p class="jobs-result-count" id="jobsResultCount">Loading jobs...</p>
+    </section>
+
     <div class="message" id="jobsMessage" role="status" aria-live="polite"></div>
 
     <section class="jobs-grid" id="jobsContainer">

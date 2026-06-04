@@ -545,6 +545,65 @@ h3 {
   margin-bottom: 0;
 }
 
+.jobs-filter-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.35fr) minmax(180px, 0.7fr) minmax(180px, 0.7fr);
+  gap: 14px;
+  align-items: end;
+  margin-bottom: 18px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.job-search-field,
+.job-filter-field {
+  display: grid;
+  gap: 8px;
+}
+
+.job-search-field label,
+.job-filter-field label {
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  font-weight: 780;
+}
+
+.job-search-field input,
+.job-filter-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  color: var(--text);
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.job-search-field input:hover,
+.job-filter-field select:hover {
+  border-color: var(--border-strong);
+}
+
+.job-search-field input:focus,
+.job-filter-field select:focus {
+  background: #ffffff;
+  border-color: rgba(37, 99, 235, 0.48);
+  box-shadow: 0 0 0 4px var(--ring);
+  outline: none;
+}
+
+.jobs-result-count {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 760;
+}
+
 .dashboard-welcome {
   display: flex;
   align-items: center;
@@ -714,9 +773,21 @@ h3 {
 
 .job-form label,
 .job-form textarea,
-.job-form button,
+.job-form .job-form-actions,
 .job-form input[name="skills_required"] {
   grid-column: 1 / -1;
+}
+
+.job-form-actions,
+.job-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.job-form-actions .btn,
+.job-card-actions .btn {
+  flex: 1 1 140px;
 }
 
 .job-form label[for="jobTitle"],
@@ -821,7 +892,7 @@ h3 {
 }
 
 .apply-button,
-.recruiter-job-card .delete-job-button {
+.recruiter-job-card .job-card-actions {
   margin-top: auto;
 }
 
@@ -1050,6 +1121,10 @@ h3 {
     flex-direction: column;
   }
 
+  .jobs-filter-panel {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .user-summary {
     min-width: 0;
   }
@@ -1089,6 +1164,7 @@ h3 {
   .metrics-grid,
   .grid,
   .jobs-grid,
+  .jobs-filter-panel,
   .applications-grid,
   .recruiter-jobs-grid,
   .job-form {

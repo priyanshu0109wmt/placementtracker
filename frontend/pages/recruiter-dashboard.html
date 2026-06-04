@@ -68,18 +68,18 @@
 
       <section class="job-management-layout">
         <article class="form-panel job-form-panel">
-          <h2>Create Job</h2>
-          <p>Post a new opportunity for students to discover and apply.</p>
+          <h2 id="jobFormTitle">Create Job</h2>
+          <p id="jobFormDescription">Post a new opportunity for students to discover and apply.</p>
 
           <form class="form job-form" id="createJobForm">
             <label for="jobTitle">Job Title</label>
-            <input id="jobTitle" name="title" type="text" placeholder="Frontend Developer Intern" required minlength="2">
+            <input id="jobTitle" name="title" type="text" placeholder="Frontend Developer Intern" required minlength="2" maxlength="150">
 
             <label for="companyName">Company</label>
-            <input id="companyName" name="company_name" type="text" placeholder="Acme Technologies" required minlength="2">
+            <input id="companyName" name="company_name" type="text" placeholder="Acme Technologies" required minlength="2" maxlength="150">
 
             <label for="jobLocation">Location</label>
-            <input id="jobLocation" name="location" type="text" placeholder="Remote, Bengaluru, Delhi" required minlength="2">
+            <input id="jobLocation" name="location" type="text" placeholder="Remote, Bengaluru, Delhi" required minlength="2" maxlength="150">
 
             <label for="jobType">Job Type</label>
             <select id="jobType" name="job_type" required>
@@ -90,7 +90,7 @@
             </select>
 
             <label for="jobSalary">Salary</label>
-            <input id="jobSalary" name="salary" type="text" placeholder="6 LPA or 25000/month">
+            <input id="jobSalary" name="salary" type="text" placeholder="6 LPA or 25000/month" maxlength="100">
 
             <label for="skillsRequired">Skills Required</label>
             <input id="skillsRequired" name="skills_required" type="text" placeholder="HTML, CSS, JavaScript" required minlength="2">
@@ -101,7 +101,10 @@
             <label for="jobDescription">Description</label>
             <textarea id="jobDescription" name="description" rows="4" placeholder="Describe responsibilities, eligibility, and hiring process." required minlength="10"></textarea>
 
-            <button class="btn btn-primary" id="createJobButton" type="submit">Create Job</button>
+            <div class="job-form-actions">
+              <button class="btn btn-primary" id="createJobButton" type="submit">Create Job</button>
+              <button class="btn btn-secondary" id="cancelEditJobButton" type="button" hidden>Cancel Edit</button>
+            </div>
           </form>
         </article>
 

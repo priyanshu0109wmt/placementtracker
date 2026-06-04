@@ -9,6 +9,10 @@ const isOwnJob = (job, recruiterId) => {
   return job && Number(job.recruiter_id) === Number(recruiterId);
 };
 
+const isValidJobId = (id) => {
+  return Number.isInteger(Number(id)) && Number(id) > 0;
+};
+
 const createJob = async (req, res) => {
   try {
     const errors = validateJobInput(req.body);
@@ -120,6 +124,13 @@ const getOwnJobApplications = async (req, res) => {
 
 const updateOwnJob = async (req, res) => {
   try {
+    if (!isValidJobId(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid job id',
+      });
+    }
+
     const job = await Job.findJobById(req.params.id);
 
     if (!job) {
@@ -167,6 +178,13 @@ const updateOwnJob = async (req, res) => {
 
 const deleteOwnJob = async (req, res) => {
   try {
+    if (!isValidJobId(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid job id',
+      });
+    }
+
     const job = await Job.findJobById(req.params.id);
 
     if (!job) {

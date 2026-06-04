@@ -4,6 +4,10 @@ const hasMinLength = (value, minLength) => {
   return typeof value === 'string' && value.trim().length >= minLength;
 };
 
+const hasMaxLength = (value, maxLength) => {
+  return typeof value === 'string' && value.trim().length <= maxLength;
+};
+
 const cleanOptionalString = (value) => {
   return typeof value === 'string' && value.trim() ? value.trim() : null;
 };
@@ -31,18 +35,28 @@ const validateJobInput = (data) => {
 
   if (!hasMinLength(data.title, 2)) {
     errors.push('Job title must be at least 2 characters long');
+  } else if (!hasMaxLength(data.title, 150)) {
+    errors.push('Job title must be 150 characters or fewer');
   }
 
   if (!hasMinLength(data.company_name, 2)) {
     errors.push('Company name must be at least 2 characters long');
+  } else if (!hasMaxLength(data.company_name, 150)) {
+    errors.push('Company name must be 150 characters or fewer');
   }
 
   if (!hasMinLength(data.location, 2)) {
     errors.push('Location must be at least 2 characters long');
+  } else if (!hasMaxLength(data.location, 150)) {
+    errors.push('Location must be 150 characters or fewer');
   }
 
   if (!data.job_type || !allowedJobTypes.includes(data.job_type)) {
     errors.push('Job type must be full-time, part-time, internship, or contract');
+  }
+
+  if (data.salary && !hasMaxLength(data.salary, 100)) {
+    errors.push('Salary must be 100 characters or fewer');
   }
 
   if (!hasMinLength(data.description, 10)) {

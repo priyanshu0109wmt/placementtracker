@@ -1,7 +1,12 @@
 const createJobForm = document.getElementById("createJobForm");
 const createJobButton = document.getElementById("createJobButton");
+const cancelEditJobButton = document.getElementById("cancelEditJobButton");
+const jobFormTitle = document.getElementById("jobFormTitle");
+const jobFormDescription = document.getElementById("jobFormDescription");
 const recruiterJobsContainer = document.getElementById("recruiterJobsContainer");
 const recruiterJobsMessage = document.getElementById("recruiterJobsMessage");
+let recruiterJobs = [];
+let editingJobId = null;
 
 initRecruiterJobs();
 
@@ -23,7 +28,11 @@ function setupRecruiterJobs() {
   loadRecruiterJobs();
 
   if (createJobForm) {
-    createJobForm.addEventListener("submit", handleCreateJobSubmit);
+    createJobForm.addEventListener("submit", handleJobFormSubmit);
+  }
+
+  if (cancelEditJobButton) {
+    cancelEditJobButton.addEventListener("click", cancelJobEdit);
   }
 }
 
@@ -37,8 +46,10 @@ async function loadRecruiterJobs() {
 
   try {
     const data = await getDataWithAuth("/jobs/my-jobs");
-    renderRecruiterJobs(data.jobs || []);
+    recruiterJobs = data.jobs || [];
+    renderRecruiterJobs(recruiterJobs);
   } catch (error) {
+    recruiterJobs = [];
     renderRecruiterJobs([]);
     handleRecruiterJobsError(error);
   }
@@ -60,6 +71,7 @@ function renderRecruiterJobs(jobs) {
   }
 
   recruiterJobsContainer.innerHTML = jobs.map(renderRecruiterJobCard).join("");
+  setupEditJobButtons();
   setupDeleteJobButtons();
 }
 
@@ -89,41 +101,51 @@ function renderRecruiterJobCard(job) {
         </div>
       </dl>
 
-      <button class="btn btn-secondary delete-job-button" type="button" data-job-id="${escapeHtml(String(job.id || ""))}">
-        Delete Job
-      </button>
+      <div class="job-card-actions">
+        <button class="btn btn-secondary edit-job-button" type="button" data-job-id="${escapeHtml(String(job.id || ""))}">
+          Edit
+        </button>
+        <button class="btn btn-secondary delete-job-button" type="button" data-job-id="${escapeHtml(String(job.id || ""))}">
+          Delete Job
+        </button>
+      </div>
     </article>
   `;
 }
 
-async function handleCreateJobSubmit(event) {
+async function handleJobFormSubmit(event) {
   event.preventDefault();
   clearRecruiterJobsMessage();
 
-  const payload = getCreateJobPayload();
-  const errors = validateCreateJobPayload(payload);
+  const payload = getJobFormPayload();
+  const errors = validateJobFormPayload(payload);
 
   if (errors.length > 0) {
     showRecruiterJobsMessage(errors.join(". "), "error");
     return;
   }
 
-  setCreateJobLoading(true);
+  setJobFormLoading(true);
 
   try {
-    const data = await postDataWithAuth("/jobs", payload);
-    showRecruiterJobsMessage(data.message || "Job created successfully.", "success");
-    createJobForm.reset();
-    setMinimumDeadline();
+    const data = editingJobId
+      ? await putDataWithAuth(`/jobs/${encodeURIComponent(editingJobId)}`, payload)
+      : await postDataWithAuth("/jobs", payload);
+
+    showRecruiterJobsMessage(
+      data.message || (editingJobId ? "Job updated successfully." : "Job created successfully."),
+      "success"
+    );
+    resetJobFormMode();
     await refreshRecruiterDashboardData();
   } catch (error) {
     handleRecruiterJobsError(error);
   } finally {
-    setCreateJobLoading(false);
+    setJobFormLoading(false);
   }
 }
 
-function getCreateJobPayload() {
+function getJobFormPayload() {
   const formData = new FormData(createJobForm);
 
   return {
@@ -138,15 +160,19 @@ function getCreateJobPayload() {
   };
 }
 
-function validateCreateJobPayload(payload) {
+function validateJobFormPayload(payload) {
   const errors = [];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const deadline = new Date(payload.application_deadline);
 
   if (payload.title.length < 2) errors.push("Job title must be at least 2 characters long");
+  if (payload.title.length > 150) errors.push("Job title must be 150 characters or fewer");
   if (payload.company_name.length < 2) errors.push("Company name must be at least 2 characters long");
+  if (payload.company_name.length > 150) errors.push("Company name must be 150 characters or fewer");
   if (payload.location.length < 2) errors.push("Location must be at least 2 characters long");
+  if (payload.location.length > 150) errors.push("Location must be 150 characters or fewer");
+  if (payload.salary.length > 100) errors.push("Salary must be 100 characters or fewer");
   if (!["full-time", "part-time", "internship", "contract"].includes(payload.job_type)) errors.push("Select a valid job type");
   if (payload.description.length < 10) errors.push("Description must be at least 10 characters long");
   if (payload.skills_required.length < 2) errors.push("Skills required must be at least 2 characters long");
@@ -157,12 +183,80 @@ function validateCreateJobPayload(payload) {
   return errors;
 }
 
+function setupEditJobButtons() {
+  const buttons = recruiterJobsContainer.querySelectorAll(".edit-job-button");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => startJobEdit(button.dataset.jobId));
+  });
+}
+
 function setupDeleteJobButtons() {
   const buttons = recruiterJobsContainer.querySelectorAll(".delete-job-button");
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => handleDeleteJob(button));
   });
+}
+
+function startJobEdit(jobId) {
+  const job = recruiterJobs.find((item) => String(item.id) === String(jobId));
+
+  if (!job) {
+    showRecruiterJobsMessage("Unable to load this job for editing.", "error");
+    return;
+  }
+
+  editingJobId = job.id;
+  populateJobForm(job);
+  setJobFormMode("edit");
+  clearRecruiterJobsMessage();
+  createJobForm.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function populateJobForm(job) {
+  createJobForm.elements.title.value = job.title || "";
+  createJobForm.elements.company_name.value = job.company_name || "";
+  createJobForm.elements.location.value = job.location || "";
+  createJobForm.elements.job_type.value = job.job_type || "internship";
+  createJobForm.elements.salary.value = job.salary || "";
+  createJobForm.elements.skills_required.value = job.skills_required || "";
+  createJobForm.elements.application_deadline.value = formatDateForInput(job.application_deadline);
+  createJobForm.elements.description.value = job.description || "";
+}
+
+function cancelJobEdit() {
+  resetJobFormMode();
+  clearRecruiterJobsMessage();
+}
+
+function resetJobFormMode() {
+  editingJobId = null;
+  createJobForm.reset();
+  setMinimumDeadline();
+  setJobFormMode("create");
+}
+
+function setJobFormMode(mode) {
+  const isEditMode = mode === "edit";
+
+  if (jobFormTitle) {
+    jobFormTitle.textContent = isEditMode ? "Update Job" : "Create Job";
+  }
+
+  if (jobFormDescription) {
+    jobFormDescription.textContent = isEditMode
+      ? "Update this opportunity while keeping applicants and status history intact."
+      : "Post a new opportunity for students to discover and apply.";
+  }
+
+  if (createJobButton) {
+    createJobButton.textContent = isEditMode ? "Update Job" : "Create Job";
+  }
+
+  if (cancelEditJobButton) {
+    cancelEditJobButton.hidden = !isEditMode;
+  }
 }
 
 async function handleDeleteJob(button) {
@@ -179,6 +273,9 @@ async function handleDeleteJob(button) {
   try {
     const data = await deleteDataWithAuth(`/jobs/${encodeURIComponent(jobId)}`);
     showRecruiterJobsMessage(data.message || "Job deleted successfully.", "success");
+    if (String(editingJobId) === String(jobId)) {
+      resetJobFormMode();
+    }
     await refreshRecruiterDashboardData();
   } catch (error) {
     handleRecruiterJobsError(error);
@@ -208,9 +305,19 @@ function showRecruiterJobsLoading() {
   `;
 }
 
-function setCreateJobLoading(isLoading) {
+function setJobFormLoading(isLoading) {
+  if (!createJobButton) {
+    return;
+  }
+
   createJobButton.disabled = isLoading;
-  createJobButton.textContent = isLoading ? "Creating..." : "Create Job";
+  createJobButton.textContent = isLoading
+    ? (editingJobId ? "Updating..." : "Creating...")
+    : (editingJobId ? "Update Job" : "Create Job");
+
+  if (cancelEditJobButton) {
+    cancelEditJobButton.disabled = isLoading;
+  }
 }
 
 function setDeleteJobLoading(button, isLoading) {
@@ -265,6 +372,22 @@ function setMinimumDeadline() {
   }
 
   deadlineInput.min = new Date().toISOString().split("T")[0];
+}
+
+function formatDateForInput(value) {
+  if (!value) return "";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value).split("T")[0];
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 function formatDate(value) {

@@ -1,7 +1,13 @@
 const jobsContainer = document.getElementById("jobsContainer");
 const jobsMessage = document.getElementById("jobsMessage");
+const jobSearchInput = document.getElementById("jobSearchInput");
+const locationFilter = document.getElementById("locationFilter");
+const jobTypeFilter = document.getElementById("jobTypeFilter");
+const jobsResultCount = document.getElementById("jobsResultCount");
+let allJobs = [];
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupJobFilters();
   loadJobs();
   setupApplyButtons();
 });
@@ -12,14 +18,22 @@ async function loadJobs() {
 
   try {
     const data = await getData("/jobs");
-    renderJobs(data.jobs || []);
+    allJobs = data.jobs || [];
+    populateJobFilters(allJobs);
+    applyJobFilters();
   } catch (error) {
+    allJobs = [];
+    updateJobsResultCount(0, 0);
     renderJobs([]);
     showJobsMessage(error.message || "Unable to load jobs. Please try again.", "error");
   }
 }
 
-function renderJobs(jobs) {
+function renderJobs(
+  jobs,
+  emptyMessage = "New placement opportunities will appear here when recruiters post them.",
+  emptyTitle = "No jobs available"
+) {
   if (!jobsContainer) {
     return;
   }
@@ -27,14 +41,100 @@ function renderJobs(jobs) {
   if (!jobs.length) {
     jobsContainer.innerHTML = `
       <article class="empty-state">
-        <h2>No jobs available</h2>
-        <p>New placement opportunities will appear here when recruiters post them.</p>
+        <h2>${escapeHtml(emptyTitle)}</h2>
+        <p>${escapeHtml(emptyMessage)}</p>
       </article>
     `;
     return;
   }
 
   jobsContainer.innerHTML = jobs.map(renderJobCard).join("");
+}
+
+function setupJobFilters() {
+  [jobSearchInput, locationFilter, jobTypeFilter].forEach((control) => {
+    if (!control) {
+      return;
+    }
+
+    control.addEventListener("input", applyJobFilters);
+    control.addEventListener("change", applyJobFilters);
+  });
+}
+
+function populateJobFilters(jobs) {
+  populateSelectOptions(locationFilter, getUniqueValues(jobs, "location"), "All locations");
+  populateSelectOptions(jobTypeFilter, getUniqueValues(jobs, "job_type"), "All types", formatText);
+}
+
+function populateSelectOptions(selectElement, values, defaultLabel, formatter = (value) => value) {
+  if (!selectElement) {
+    return;
+  }
+
+  const selectedValue = selectElement.value;
+  selectElement.innerHTML = `<option value="">${escapeHtml(defaultLabel)}</option>`;
+
+  values.forEach((value) => {
+    selectElement.innerHTML += `
+      <option value="${escapeHtml(value)}">${escapeHtml(formatter(value))}</option>
+    `;
+  });
+
+  if (values.includes(selectedValue)) {
+    selectElement.value = selectedValue;
+  }
+}
+
+function getUniqueValues(jobs, key) {
+  return [...new Set(
+    jobs
+      .map((job) => String(job[key] || "").trim())
+      .filter(Boolean)
+  )].sort((first, second) => first.localeCompare(second));
+}
+
+function applyJobFilters() {
+  const searchTerm = normalizeFilterValue(jobSearchInput?.value || "");
+  const selectedLocation = normalizeFilterValue(locationFilter?.value || "");
+  const selectedJobType = normalizeFilterValue(jobTypeFilter?.value || "");
+
+  const filteredJobs = allJobs.filter((job) => {
+    const title = normalizeFilterValue(job.title || "");
+    const companyName = normalizeFilterValue(job.company_name || "");
+    const location = normalizeFilterValue(job.location || "");
+    const jobType = normalizeFilterValue(job.job_type || "");
+
+    const matchesSearch = !searchTerm || title.includes(searchTerm) || companyName.includes(searchTerm);
+    const matchesLocation = !selectedLocation || location === selectedLocation;
+    const matchesJobType = !selectedJobType || jobType === selectedJobType;
+
+    return matchesSearch && matchesLocation && matchesJobType;
+  });
+
+  updateJobsResultCount(filteredJobs.length, allJobs.length);
+  renderJobs(
+    filteredJobs,
+    allJobs.length ? "Try a different search or filter combination." : undefined,
+    allJobs.length ? "No matching jobs" : undefined
+  );
+}
+
+function normalizeFilterValue(value) {
+  return String(value).trim().toLowerCase();
+}
+
+function updateJobsResultCount(visibleCount, totalCount) {
+  if (!jobsResultCount) {
+    return;
+  }
+
+  if (!totalCount) {
+    jobsResultCount.textContent = "No jobs posted yet";
+    return;
+  }
+
+  jobsResultCount.textContent = `Showing ${visibleCount} of ${totalCount} ${totalCount === 1 ? "job" : "jobs"}`;
 }
 
 function renderJobCard(job) {
