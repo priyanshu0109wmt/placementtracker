@@ -12,6 +12,7 @@ router.use(authorizeRoles('recruiter'));
 
 router.post('/', jobController.createJob);
 router.get('/my-jobs', jobController.getOwnJobs);
+router.get('/analytics', jobController.getOwnJobAnalytics);
 router.get('/:jobId/applications', jobController.getOwnJobApplications);
 router.put('/:id', jobController.updateOwnJob);
 router.delete('/:id', jobController.deleteOwnJob);

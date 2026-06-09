@@ -19,37 +19,49 @@
   </header>
 
   <main class="page-shell container">
-    <section class="page-heading">
-      <h1>Jobs</h1>
-      <p>Browse current placement opportunities from recruiters.</p>
+    <section class="page-heading jobs-page-heading">
+      <div>
+        <p class="eyebrow">Placement Opportunities</p>
+        <h1>Jobs</h1>
+        <p>Browse current placement opportunities from recruiters.</p>
+      </div>
+      <a class="btn btn-secondary btn-small" href="./student-dashboard.html">My Applications</a>
     </section>
 
     <section class="jobs-filter-panel" aria-label="Job search and filters">
-      <div class="job-search-field">
-        <label for="jobSearchInput">Search jobs</label>
-        <input
-          id="jobSearchInput"
-          type="search"
-          placeholder="Search by title or company"
-          autocomplete="off"
-        >
+      <div class="jobs-filter-heading">
+        <div>
+          <p class="eyebrow">Discover</p>
+          <h2>Search open roles</h2>
+        </div>
+        <p class="jobs-result-count" id="jobsResultCount">Loading jobs...</p>
       </div>
 
-      <div class="job-filter-field">
-        <label for="locationFilter">Location</label>
-        <select id="locationFilter">
-          <option value="">All locations</option>
-        </select>
-      </div>
+      <div class="jobs-filter-controls">
+        <div class="job-search-field">
+          <label for="jobSearchInput">Search jobs</label>
+          <input
+            id="jobSearchInput"
+            type="search"
+            placeholder="Search by title or company"
+            autocomplete="off"
+          >
+        </div>
 
-      <div class="job-filter-field">
-        <label for="jobTypeFilter">Job Type</label>
-        <select id="jobTypeFilter">
-          <option value="">All types</option>
-        </select>
-      </div>
+        <div class="job-filter-field">
+          <label for="locationFilter">Location</label>
+          <select id="locationFilter">
+            <option value="">All locations</option>
+          </select>
+        </div>
 
-      <p class="jobs-result-count" id="jobsResultCount">Loading jobs...</p>
+        <div class="job-filter-field">
+          <label for="jobTypeFilter">Job Type</label>
+          <select id="jobTypeFilter">
+            <option value="">All types</option>
+          </select>
+        </div>
+      </div>
     </section>
 
     <div class="message" id="jobsMessage" role="status" aria-live="polite"></div>

@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS applications (
   id INT AUTO_INCREMENT PRIMARY KEY,
   student_id INT NOT NULL,
   job_id INT NOT NULL,
-  resume_link VARCHAR(255) NOT NULL,
+  resume_path VARCHAR(255) NOT NULL,
   cover_letter TEXT,
   status ENUM('applied', 'shortlisted', 'rejected', 'accepted') NOT NULL DEFAULT 'applied',
   applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

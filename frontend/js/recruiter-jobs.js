@@ -287,6 +287,10 @@ async function handleDeleteJob(button) {
 async function refreshRecruiterDashboardData() {
   await loadRecruiterJobs();
 
+  if (typeof loadRecruiterAnalytics === "function") {
+    await loadRecruiterAnalytics();
+  }
+
   if (typeof loadRecruiterApplicants === "function") {
     await loadRecruiterApplicants();
   }

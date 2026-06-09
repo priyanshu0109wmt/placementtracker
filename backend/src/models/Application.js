@@ -3,13 +3,13 @@ const { pool } = require('../config/db');
 const createApplication = async ({
   studentId,
   jobId,
-  resumeLink,
+  resumePath,
   coverLetter,
 }) => {
   const [result] = await pool.execute(
-    `INSERT INTO applications (student_id, job_id, resume_link, cover_letter)
+    `INSERT INTO applications (student_id, job_id, resume_path, cover_letter)
      VALUES (?, ?, ?, ?)`,
-    [studentId, jobId, resumeLink, coverLetter]
+    [studentId, jobId, resumePath, coverLetter]
   );
 
   return findApplicationById(result.insertId);
@@ -17,7 +17,7 @@ const createApplication = async ({
 
 const findApplicationById = async (id) => {
   const [rows] = await pool.execute(
-    `SELECT id, student_id, job_id, resume_link, cover_letter, status, applied_at
+    `SELECT id, student_id, job_id, resume_path, cover_letter, status, applied_at
      FROM applications
      WHERE id = ?
      LIMIT 1`,
@@ -29,7 +29,7 @@ const findApplicationById = async (id) => {
 
 const findApplicationByStudentAndJob = async (studentId, jobId) => {
   const [rows] = await pool.execute(
-    `SELECT id, student_id, job_id, resume_link, cover_letter, status, applied_at
+    `SELECT id, student_id, job_id, resume_path, cover_letter, status, applied_at
      FROM applications
      WHERE student_id = ? AND job_id = ?
      LIMIT 1`,
@@ -45,7 +45,7 @@ const findApplicationsByStudentId = async (studentId) => {
       applications.id,
       applications.student_id,
       applications.job_id,
-      applications.resume_link,
+      applications.resume_path,
       applications.cover_letter,
       applications.status,
       applications.applied_at,
@@ -71,7 +71,7 @@ const findApplicationsByJobId = async (jobId) => {
       applications.id,
       applications.student_id,
       applications.job_id,
-      applications.resume_link,
+      applications.resume_path,
       applications.cover_letter,
       applications.status,
       applications.applied_at,
@@ -96,7 +96,7 @@ const findApplicationWithJobById = async (applicationId) => {
       applications.id,
       applications.student_id,
       applications.job_id,
-      applications.resume_link,
+      applications.resume_path,
       applications.cover_letter,
       applications.status,
       applications.applied_at,

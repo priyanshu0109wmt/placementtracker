@@ -40,7 +40,8 @@ function renderJobs(
 
   if (!jobs.length) {
     jobsContainer.innerHTML = `
-      <article class="empty-state">
+      <article class="empty-state jobs-empty-state">
+        <span class="empty-state-mark" aria-hidden="true"></span>
         <h2>${escapeHtml(emptyTitle)}</h2>
         <p>${escapeHtml(emptyMessage)}</p>
       </article>
@@ -144,8 +145,8 @@ function renderJobCard(job) {
     <article class="job-card">
       <div class="job-card-header">
         <div>
+          <span class="job-company">${escapeHtml(job.company_name || "Company not specified")}</span>
           <h2>${escapeHtml(job.title || "Untitled Job")}</h2>
-          <p>${escapeHtml(job.company_name || "Company not specified")}</p>
         </div>
         <span class="job-type">${escapeHtml(formatText(job.job_type || "Job"))}</span>
       </div>
@@ -170,14 +171,20 @@ function renderJobCard(job) {
       </div>
 
       <div class="application-controls">
-        <label for="resumeLink-${escapeHtml(String(job.id || ""))}">Resume Link</label>
+        <div class="application-controls-heading">
+          <label for="resumeFile-${escapeHtml(String(job.id || ""))}">Resume PDF</label>
+          <span>Max 5MB</span>
+        </div>
         <input
-          id="resumeLink-${escapeHtml(String(job.id || ""))}"
-          class="resume-link-input"
-          type="url"
-          placeholder="https://example.com/resume.pdf"
+          id="resumeFile-${escapeHtml(String(job.id || ""))}"
+          class="resume-file-input"
+          type="file"
+          accept="application/pdf,.pdf"
           data-resume-for="${escapeHtml(String(job.id || ""))}"
         >
+        <span class="selected-file-name" data-file-name-for="${escapeHtml(String(job.id || ""))}">
+          No PDF selected
+        </span>
         <button class="btn btn-primary apply-button" type="button" data-job-id="${escapeHtml(String(job.id || ""))}">
           Apply
         </button>
@@ -200,6 +207,16 @@ function setupApplyButtons() {
 
     handleApplyClick(applyButton);
   });
+
+  jobsContainer.addEventListener("change", (event) => {
+    const resumeInput = event.target.closest(".resume-file-input");
+
+    if (!resumeInput) {
+      return;
+    }
+
+    handleResumeFileSelection(resumeInput);
+  });
 }
 
 async function handleApplyClick(applyButton) {
@@ -221,16 +238,17 @@ async function handleApplyClick(applyButton) {
   }
 
   const payload = getApplicationPayload(applyButton.dataset.jobId);
+  const errors = validateApplicationPayload(payload);
 
-  if (!payload.resume_link) {
-    showJobsMessage("Please add a resume link before applying.", "error");
+  if (errors.length > 0) {
+    showJobsMessage(errors.join(". "), "error");
     return;
   }
 
   setApplyLoading(applyButton, true);
 
   try {
-    const data = await postDataWithAuth("/applications", payload);
+    const data = await postFormDataWithAuth("/applications", payload.formData);
     showJobsMessage(data.message || "Application submitted successfully.", "success");
     markApplied(applyButton);
   } catch (error) {
@@ -244,13 +262,77 @@ async function handleApplyClick(applyButton) {
 
 function getApplicationPayload(jobId) {
   const resumeInput = document.querySelector(`[data-resume-for="${cssEscapeValue(jobId)}"]`);
+  const resumeFile = resumeInput?.files?.[0] || null;
+  const formData = new FormData();
+
+  formData.append("job_id", jobId);
+
+  if (resumeFile) {
+    formData.append("resume", resumeFile);
+  }
 
   return {
-    job_id: Number(jobId),
-    resume_link: resumeInput?.value.trim() || "",
-    cover_letter: null,
-    // Future upload support can replace resume_link with an uploaded file URL.
+    jobId: Number(jobId),
+    resumeFile,
+    formData,
   };
+}
+
+function validateApplicationPayload(payload) {
+  const errors = [];
+  const maxResumeSize = 5 * 1024 * 1024;
+
+  if (!payload.jobId) {
+    errors.push("Job id is missing");
+  }
+
+  if (!payload.resumeFile) {
+    errors.push("Please choose a PDF resume before applying");
+    return errors;
+  }
+
+  const isPdf = payload.resumeFile.type === "application/pdf" || payload.resumeFile.name.toLowerCase().endsWith(".pdf");
+
+  if (!isPdf) {
+    errors.push("Resume must be a PDF file");
+  }
+
+  if (payload.resumeFile.size > maxResumeSize) {
+    errors.push("Resume PDF must be 5MB or smaller");
+  }
+
+  return errors;
+}
+
+function handleResumeFileSelection(input) {
+  const jobId = input.dataset.resumeFor;
+  const fileNameLabel = document.querySelector(`[data-file-name-for="${cssEscapeValue(jobId)}"]`);
+  const file = input.files?.[0];
+
+  if (!fileNameLabel) {
+    return;
+  }
+
+  if (!file) {
+    fileNameLabel.textContent = "No PDF selected";
+    fileNameLabel.classList.remove("file-error");
+    return;
+  }
+
+  const errors = validateApplicationPayload({
+    jobId: Number(jobId),
+    resumeFile: file,
+    formData: new FormData(),
+  });
+
+  fileNameLabel.textContent = file.name;
+  fileNameLabel.classList.toggle("file-error", errors.length > 0);
+
+  if (errors.length > 0) {
+    showJobsMessage(errors.join(". "), "error");
+  } else {
+    clearJobsMessage();
+  }
 }
 
 function setApplyLoading(applyButton, isLoading) {

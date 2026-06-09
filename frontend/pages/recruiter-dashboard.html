@@ -41,20 +41,35 @@
       </aside>
 
       <div class="dashboard-content">
-        <section class="grid">
-          <article class="card">
-            <h2>Posted Jobs</h2>
-            <p>Review your active openings and candidate activity.</p>
+        <section class="analytics-grid" id="recruiterAnalyticsGrid" aria-label="Recruiter analytics">
+          <article class="analytics-card">
+            <span>Total Jobs Posted</span>
+            <strong id="analyticsTotalJobs">--</strong>
+            <p>Openings created by your account.</p>
           </article>
-          <article class="card">
-            <h2>Applicants</h2>
-            <p>View student applicants for jobs created by your account.</p>
+          <article class="analytics-card">
+            <span>Total Applications</span>
+            <strong id="analyticsTotalApplications">--</strong>
+            <p>Applicants across your posted jobs.</p>
           </article>
-          <article class="card">
-            <h2>Company Profile</h2>
-            <p>Recruiter profile details will appear here.</p>
+          <article class="analytics-card">
+            <span>Shortlisted</span>
+            <strong id="analyticsShortlisted">--</strong>
+            <p>Candidates moved forward.</p>
+          </article>
+          <article class="analytics-card">
+            <span>Accepted</span>
+            <strong id="analyticsAccepted">--</strong>
+            <p>Final selected applicants.</p>
+          </article>
+          <article class="analytics-card">
+            <span>Rejected</span>
+            <strong id="analyticsRejected">--</strong>
+            <p>Applications marked rejected.</p>
           </article>
         </section>
+
+        <div class="message" id="recruiterAnalyticsMessage" role="status" aria-live="polite"></div>
 
     <section class="dashboard-section" id="job-management">
       <div class="section-heading">
@@ -67,48 +82,77 @@
       <div class="message" id="recruiterJobsMessage" role="status" aria-live="polite"></div>
 
       <section class="job-management-layout">
-        <article class="form-panel job-form-panel">
-          <h2 id="jobFormTitle">Create Job</h2>
-          <p id="jobFormDescription">Post a new opportunity for students to discover and apply.</p>
-
-          <form class="form job-form" id="createJobForm">
-            <label for="jobTitle">Job Title</label>
-            <input id="jobTitle" name="title" type="text" placeholder="Frontend Developer Intern" required minlength="2" maxlength="150">
-
-            <label for="companyName">Company</label>
-            <input id="companyName" name="company_name" type="text" placeholder="Acme Technologies" required minlength="2" maxlength="150">
-
-            <label for="jobLocation">Location</label>
-            <input id="jobLocation" name="location" type="text" placeholder="Remote, Bengaluru, Delhi" required minlength="2" maxlength="150">
-
-            <label for="jobType">Job Type</label>
-            <select id="jobType" name="job_type" required>
-              <option value="internship">Internship</option>
-              <option value="full-time">Full-time</option>
-              <option value="part-time">Part-time</option>
-              <option value="contract">Contract</option>
-            </select>
-
-            <label for="jobSalary">Salary</label>
-            <input id="jobSalary" name="salary" type="text" placeholder="6 LPA or 25000/month" maxlength="100">
-
-            <label for="skillsRequired">Skills Required</label>
-            <input id="skillsRequired" name="skills_required" type="text" placeholder="HTML, CSS, JavaScript" required minlength="2">
-
-            <label for="applicationDeadline">Application Deadline</label>
-            <input id="applicationDeadline" name="application_deadline" type="date" required>
-
-            <label for="jobDescription">Description</label>
-            <textarea id="jobDescription" name="description" rows="4" placeholder="Describe responsibilities, eligibility, and hiring process." required minlength="10"></textarea>
-
-            <div class="job-form-actions">
-              <button class="btn btn-primary" id="createJobButton" type="submit">Create Job</button>
-              <button class="btn btn-secondary" id="cancelEditJobButton" type="button" hidden>Cancel Edit</button>
+        <section class="create-job-section" aria-labelledby="jobFormTitle">
+          <article class="form-panel job-form-panel">
+            <div class="form-panel-heading">
+              <div>
+                <h2 id="jobFormTitle">Create Job</h2>
+                <p id="jobFormDescription">Post a new opportunity for students to discover and apply.</p>
+              </div>
             </div>
-          </form>
-        </article>
 
-        <section class="recruiter-jobs-panel">
+            <form class="form job-form" id="createJobForm">
+              <div class="form-field">
+                <label for="jobTitle">Job Title</label>
+                <input id="jobTitle" name="title" type="text" placeholder="Frontend Developer Intern" required minlength="2" maxlength="150">
+              </div>
+
+              <div class="form-field">
+                <label for="companyName">Company</label>
+                <input id="companyName" name="company_name" type="text" placeholder="Acme Technologies" required minlength="2" maxlength="150">
+              </div>
+
+              <div class="form-field">
+                <label for="jobLocation">Location</label>
+                <input id="jobLocation" name="location" type="text" placeholder="Remote, Bengaluru, Delhi" required minlength="2" maxlength="150">
+              </div>
+
+              <div class="form-field">
+                <label for="jobType">Job Type</label>
+                <select id="jobType" name="job_type" required>
+                  <option value="internship">Internship</option>
+                  <option value="full-time">Full-time</option>
+                  <option value="part-time">Part-time</option>
+                  <option value="contract">Contract</option>
+                </select>
+              </div>
+
+              <div class="form-field">
+                <label for="jobSalary">Salary</label>
+                <input id="jobSalary" name="salary" type="text" placeholder="6 LPA or 25000/month" maxlength="100">
+              </div>
+
+              <div class="form-field">
+                <label for="applicationDeadline">Application Deadline</label>
+                <input id="applicationDeadline" name="application_deadline" type="date" required>
+              </div>
+
+              <div class="form-field form-field-wide">
+                <label for="skillsRequired">Skills Required</label>
+                <input id="skillsRequired" name="skills_required" type="text" placeholder="HTML, CSS, JavaScript" required minlength="2">
+              </div>
+
+              <div class="form-field form-field-wide">
+                <label for="jobDescription">Description</label>
+                <textarea id="jobDescription" name="description" rows="4" placeholder="Describe responsibilities, eligibility, and hiring process." required minlength="10"></textarea>
+              </div>
+
+              <div class="job-form-actions">
+                <button class="btn btn-primary" id="createJobButton" type="submit">Create Job</button>
+                <button class="btn btn-secondary" id="cancelEditJobButton" type="button" hidden>Cancel Edit</button>
+              </div>
+            </form>
+          </article>
+        </section>
+
+        <section class="recruiter-jobs-panel" aria-labelledby="recruiterJobsTitle">
+          <div class="section-subheading">
+            <div>
+              <p class="eyebrow">Open Roles</p>
+              <h3 id="recruiterJobsTitle">Existing Jobs</h3>
+            </div>
+          </div>
+
           <div class="recruiter-jobs-grid" id="recruiterJobsContainer">
             <article class="card loading-card">
               <span class="loader" aria-hidden="true"></span>
@@ -150,6 +194,7 @@
   <script src="../js/api.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/dashboard.js"></script>
+  <script src="../js/recruiter-analytics.js"></script>
   <script src="../js/recruiter-jobs.js"></script>
   <script src="../js/recruiter-applicants.js"></script>
   <script src="../js/main.js"></script>

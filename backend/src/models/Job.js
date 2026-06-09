@@ -69,6 +69,31 @@ const findAllJobs = async () => {
   return rows;
 };
 
+const getRecruiterAnalytics = async (recruiterId) => {
+  const [rows] = await pool.execute(
+    `SELECT
+      COUNT(DISTINCT jobs.id) AS total_jobs,
+      COUNT(applications.id) AS total_applications,
+      COALESCE(SUM(CASE WHEN applications.status = 'shortlisted' THEN 1 ELSE 0 END), 0) AS shortlisted,
+      COALESCE(SUM(CASE WHEN applications.status = 'accepted' THEN 1 ELSE 0 END), 0) AS accepted,
+      COALESCE(SUM(CASE WHEN applications.status = 'rejected' THEN 1 ELSE 0 END), 0) AS rejected
+     FROM jobs
+     LEFT JOIN applications ON applications.job_id = jobs.id
+     WHERE jobs.recruiter_id = ?`,
+    [recruiterId]
+  );
+
+  const analytics = rows[0] || {};
+
+  return {
+    total_jobs: Number(analytics.total_jobs || 0),
+    total_applications: Number(analytics.total_applications || 0),
+    shortlisted: Number(analytics.shortlisted || 0),
+    accepted: Number(analytics.accepted || 0),
+    rejected: Number(analytics.rejected || 0),
+  };
+};
+
 const updateJobById = async (id, jobData) => {
   await pool.execute(
     `UPDATE jobs
@@ -102,6 +127,7 @@ module.exports = {
   findJobById,
   findAllJobs,
   findJobsByRecruiterId,
+  getRecruiterAnalytics,
   updateJobById,
   deleteJobById,
 };

@@ -82,6 +82,24 @@ const getOwnJobs = async (req, res) => {
   }
 };
 
+const getOwnJobAnalytics = async (req, res) => {
+  try {
+    const analytics = await Job.getRecruiterAnalytics(req.user.id);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Recruiter analytics fetched successfully',
+      analytics,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch recruiter analytics',
+      error: process.env.NODE_ENV === 'production' ? undefined : error.message,
+    });
+  }
+};
+
 const getOwnJobApplications = async (req, res) => {
   try {
     const job = await Job.findJobById(req.params.jobId);
@@ -220,6 +238,7 @@ module.exports = {
   createJob,
   getAllJobs,
   getOwnJobs,
+  getOwnJobAnalytics,
   getOwnJobApplications,
   updateOwnJob,
   deleteOwnJob,

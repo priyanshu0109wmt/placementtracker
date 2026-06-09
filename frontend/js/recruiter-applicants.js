@@ -110,7 +110,7 @@ function renderApplicantCard(applicant) {
       </dl>
 
       <div class="applicant-actions">
-        ${renderResumeLink(applicant.resume_link)}
+        ${renderResumeDownloadButton(applicant)}
         ${renderStatusActions(applicant)}
       </div>
     </article>
@@ -142,6 +142,13 @@ function setupStatusActions() {
   }
 
   recruiterApplicantsContainer.addEventListener("click", (event) => {
+    const downloadButton = event.target.closest(".download-resume-button");
+
+    if (downloadButton) {
+      handleResumeDownload(downloadButton);
+      return;
+    }
+
     const button = event.target.closest(".status-action-button");
 
     if (!button) {
@@ -187,6 +194,10 @@ async function handleStatusAction(button) {
 
     if (updatedStatus) {
       updateApplicationCardStatus(applicationId, updatedStatus);
+
+      if (typeof loadRecruiterAnalytics === "function") {
+        await loadRecruiterAnalytics();
+      }
     }
   }
 }
@@ -256,16 +267,114 @@ function handleStatusUpdateError(error) {
   showRecruiterApplicantsMessage(error.message || "Unable to update application status.", "error");
 }
 
-function renderResumeLink(resumeLink) {
-  if (!resumeLink) {
-    return `<span class="muted-text">No resume link provided</span>`;
+function renderResumeDownloadButton(applicant) {
+  if (!applicant.resume_path) {
+    return `<span class="muted-text">No resume uploaded</span>`;
   }
 
   return `
-    <a class="btn btn-secondary btn-small" href="${escapeHtml(resumeLink)}" target="_blank" rel="noopener noreferrer">
-      View Resume
-    </a>
+    <button
+      class="btn btn-secondary btn-small download-resume-button"
+      type="button"
+      data-application-id="${escapeHtml(String(applicant.id || ""))}"
+      data-student-name="${escapeHtml(applicant.student_name || "student")}"
+    >
+      Download Resume
+    </button>
   `;
+}
+
+async function handleResumeDownload(button) {
+  const applicationId = button.dataset.applicationId;
+
+  if (!applicationId) {
+    showRecruiterApplicantsMessage("Application id is missing.", "error");
+    return;
+  }
+
+  clearRecruiterApplicantsMessage();
+  setDownloadResumeLoading(button, true);
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/applications/${encodeURIComponent(applicationId)}/resume`, {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    });
+
+    if (!response.ok) {
+      await throwResumeDownloadError(response);
+    }
+
+    const resumeBlob = await response.blob();
+    const fileName = getResumeDownloadFileName(response, button.dataset.studentName);
+    downloadBlob(resumeBlob, fileName);
+    showRecruiterApplicantsMessage("Resume download started.", "success");
+  } catch (error) {
+    handleResumeDownloadError(error);
+  } finally {
+    setDownloadResumeLoading(button, false);
+  }
+}
+
+async function throwResumeDownloadError(response) {
+  const contentType = response.headers.get("content-type") || "";
+
+  if (contentType.includes("application/json")) {
+    const data = await response.json();
+    const error = new Error(data.message || "Unable to download resume.");
+    error.status = response.status;
+    error.errors = data.errors || [];
+    throw error;
+  }
+
+  const error = new Error("Unable to download resume.");
+  error.status = response.status;
+  throw error;
+}
+
+function getResumeDownloadFileName(response, studentName) {
+  const contentDisposition = response.headers.get("content-disposition") || "";
+  const match = contentDisposition.match(/filename="?([^"]+)"?/i);
+
+  if (match?.[1]) {
+    return match[1];
+  }
+
+  return `${String(studentName || "student").trim().replace(/\s+/g, "-").toLowerCase()}-resume.pdf`;
+}
+
+function downloadBlob(blob, fileName) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function setDownloadResumeLoading(button, isLoading) {
+  button.disabled = isLoading;
+  button.textContent = isLoading ? "Downloading..." : "Download Resume";
+}
+
+function handleResumeDownloadError(error) {
+  if (error.status === 401) {
+    showRecruiterApplicantsMessage("Your session has expired. Please login again.", "error");
+    clearAuthSession();
+    redirectToLogin(900);
+    return;
+  }
+
+  if (error.status === 403) {
+    showRecruiterApplicantsMessage("You can only download resumes for your own jobs.", "error");
+    return;
+  }
+
+  showRecruiterApplicantsMessage(error.message || "Unable to download resume.", "error");
 }
 
 function showRecruiterApplicantsLoading() {

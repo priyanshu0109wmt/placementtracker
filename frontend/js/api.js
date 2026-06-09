@@ -2,10 +2,11 @@ const API_BASE_URL = "http://localhost:5000/api";
 
 async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
+  const isFormDataBody = typeof FormData !== "undefined" && options.body instanceof FormData;
   const config = {
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormDataBody ? {} : { "Content-Type": "application/json" }),
       ...options.headers,
     },
   };
@@ -37,6 +38,18 @@ function postData(endpoint, data, options = {}) {
 
 function postDataWithAuth(endpoint, data, options = {}) {
   return postData(endpoint, data, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${getAuthToken()}`,
+      ...options.headers,
+    },
+  });
+}
+
+function postFormDataWithAuth(endpoint, formData, options = {}) {
+  return apiRequest(endpoint, {
+    method: "POST",
+    body: formData,
     ...options,
     headers: {
       Authorization: `Bearer ${getAuthToken()}`,

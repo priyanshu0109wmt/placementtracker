@@ -33,7 +33,8 @@ function renderApplications(applications) {
 
   if (!applications.length) {
     applicationsContainer.innerHTML = `
-      <article class="empty-state">
+      <article class="empty-state applications-empty-state">
+        <span class="empty-state-mark" aria-hidden="true"></span>
         <h2>No applications yet</h2>
         <p>Jobs you apply to will appear here with their latest status.</p>
       </article>
@@ -45,15 +46,17 @@ function renderApplications(applications) {
 }
 
 function renderApplicationCard(application) {
+  const status = application.status || "pending";
+
   return `
-    <article class="application-card">
+    <article class="application-card student-application-card">
       <div class="application-card-header">
         <div>
+          <span class="application-company">${escapeHtml(application.company_name || "Company not specified")}</span>
           <h3>${escapeHtml(application.title || "Untitled Job")}</h3>
-          <p>${escapeHtml(application.company_name || "Company not specified")}</p>
         </div>
-        <span class="status-badge status-${escapeHtml(getStatusClass(application.status))}">
-          ${escapeHtml(formatStatus(application.status))}
+        <span class="status-badge status-${escapeHtml(getStatusClass(status))}">
+          ${escapeHtml(formatStatus(status))}
         </span>
       </div>
 
@@ -61,6 +64,10 @@ function renderApplicationCard(application) {
         <div>
           <dt>Applied On</dt>
           <dd>${escapeHtml(formatDate(application.applied_at))}</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>${escapeHtml(formatStatus(status))}</dd>
         </div>
       </dl>
     </article>
