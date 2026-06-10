@@ -16,7 +16,7 @@
       <a class="brand" href="../index.html">PLCTR</a>
       <div class="nav-links">
         <a href="./jobs.html">Jobs</a>
-        <a href="./profile.html">Profile</a>
+        <a href="./profile.html" target="_self">Profile</a>
         <button class="btn btn-secondary btn-small" id="logoutButton" type="button">Logout</button>
       </div>
     </nav>
@@ -32,6 +32,7 @@
         <p>Manage job posts, review applicants, and track hiring progress.</p>
       </div>
       <div class="user-summary">
+        <div class="user-avatar" id="userAvatar">RC</div>
         <span id="userRole">recruiter</span>
         <strong id="userEmail">recruiter@example.com</strong>
       </div>
@@ -42,9 +43,18 @@
       <!-- Sidebar -->
       <aside class="dashboard-sidebar">
         <p class="eyebrow">Hiring Suite</p>
-        <a href="./recruiter-dashboard.html" class="sidebar-link active">Overview</a>
-        <a href="#job-management" class="sidebar-link">Jobs</a>
-        <a href="#applicants" class="sidebar-link">Applicants</a>
+        <a href="./recruiter-dashboard.html" class="sidebar-link active">
+          <svg class="sidebar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Overview
+        </a>
+        <a href="#job-management" class="sidebar-link">
+          <svg class="sidebar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          Jobs
+        </a>
+        <a href="#applicants" class="sidebar-link">
+          <svg class="sidebar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Applicants
+        </a>
       </aside>
 
       <div class="dashboard-content">

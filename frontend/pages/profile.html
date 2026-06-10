@@ -6,7 +6,7 @@
   <title>Profile | PLCTR</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
-<body class="profile-page">
+<body class="profile-page" data-required-role="student">
   <header class="site-header">
     <nav class="navbar container">
       <a class="brand" href="../index.html">PLCTR</a>
@@ -27,19 +27,36 @@
 
     <section class="form-panel auth-card">
       <h1>Profile</h1>
-      <p>Starter profile page for student or recruiter details.</p>
+      <p>Keep your student placement details ready for job applications.</p>
+
+      <div class="message" id="profileMessage" role="status" aria-live="polite"></div>
 
       <form class="form" id="profileForm">
-        <label for="displayName">Display Name</label>
-        <input id="displayName" name="displayName" type="text" placeholder="Your display name">
+        <label for="collegeName">College Name</label>
+        <input id="collegeName" name="college_name" type="text" placeholder="Your college name" required>
 
-        <label for="headline">Headline</label>
-        <input id="headline" name="headline" type="text" placeholder="Student, recruiter, or company headline">
+        <label for="branch">Branch</label>
+        <input id="branch" name="branch" type="text" placeholder="Computer Science, IT, ECE..." required>
+
+        <label for="graduationYear">Graduation Year</label>
+        <input id="graduationYear" name="graduation_year" type="number" placeholder="2026" required>
+
+        <label for="skills">Skills</label>
+        <textarea id="skills" name="skills" rows="3" placeholder="JavaScript, Python, SQL, React..."></textarea>
+
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" placeholder="Your phone number">
+
+        <label for="linkedinUrl">LinkedIn URL</label>
+        <input id="linkedinUrl" name="linkedin_url" type="url" placeholder="https://www.linkedin.com/in/your-profile">
+
+        <label for="githubUrl">GitHub URL</label>
+        <input id="githubUrl" name="github_url" type="url" placeholder="https://github.com/your-username">
 
         <label for="bio">Bio</label>
         <textarea id="bio" name="bio" rows="5" placeholder="Short profile summary"></textarea>
 
-        <button class="btn btn-primary" type="submit">Save Profile</button>
+        <button class="btn btn-primary" id="profileSaveButton" type="submit">Save Profile</button>
       </form>
     </section>
   </main>
@@ -53,6 +70,7 @@
 
   <script src="../js/api.js"></script>
   <script src="../js/auth.js"></script>
+  <script src="../js/profile.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>

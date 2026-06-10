@@ -1785,6 +1785,11 @@ h3 {
 @media (max-width: 680px) {
   .container { width: min(100% - 28px, var(--container)); }
 
+  .site-header {
+    height: auto;
+    min-height: var(--nav-h);
+  }
+
   .navbar {
     align-items: flex-start;
     flex-direction: column;
@@ -2107,5 +2112,2064 @@ h3 {
 
   .student-dashboard-page .user-avatar {
     margin-bottom: 0;
+  }
+}
+
+/* ================================================================
+   RECRUITER DASHBOARD — Safe Redesign (No :has, no details/summary)
+   Append only. Do not modify existing rules above.
+   ================================================================ */
+
+/* ── Sidebar Icons ─────────────────────────────────────────── */
+.recruiter-dashboard-page .sidebar-link {
+  gap: 10px;
+}
+
+.recruiter-dashboard-page .sidebar-icon {
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+  opacity: 0.6;
+  flex-shrink: 0;
+  transition: opacity 140ms ease, color 140ms ease;
+}
+
+.recruiter-dashboard-page .sidebar-link:hover .sidebar-icon,
+.recruiter-dashboard-page .sidebar-link.active .sidebar-icon {
+  opacity: 1;
+  color: var(--primary);
+}
+
+/* ── Welcome Avatar ────────────────────────────────────────── */
+.recruiter-dashboard-page .user-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  min-width: 200px;
+}
+
+.recruiter-dashboard-page .user-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--grad-brand);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-btn);
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+/* ── Analytics — Stronger Hierarchy ────────────────────────── */
+.recruiter-dashboard-page .analytics-grid {
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.recruiter-dashboard-page .analytics-card {
+  min-height: 152px;
+  padding: 24px;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-tint) 100%);
+  border: 1px solid var(--border-neutral);
+}
+
+.recruiter-dashboard-page .analytics-card::before {
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.recruiter-dashboard-page .analytics-card strong {
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  letter-spacing: -0.06em;
+  margin-bottom: 12px;
+}
+
+.recruiter-dashboard-page .analytics-card span {
+  font-size: 12px;
+  margin-bottom: 18px;
+  color: var(--muted);
+}
+
+.recruiter-dashboard-page .analytics-card p {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted-light);
+}
+
+/* ── Compact Form (visually smaller, not collapsed) ───────── */
+.recruiter-dashboard-page .job-form-panel {
+  padding: 24px;
+}
+
+.recruiter-dashboard-page .job-form {
+  gap: 14px;
+}
+
+.recruiter-dashboard-page .job-form .form-field {
+  gap: 5px;
+}
+
+.recruiter-dashboard-page .job-form input,
+.recruiter-dashboard-page .job-form select,
+.recruiter-dashboard-page .job-form textarea {
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.recruiter-dashboard-page .job-form textarea {
+  min-height: 80px;
+}
+
+.recruiter-dashboard-page .job-form-actions {
+  padding-top: 8px;
+}
+
+.recruiter-dashboard-page .job-form-actions .btn {
+  min-height: 40px;
+  flex: 0 1 160px;
+}
+
+/* ── Job Cards — Modern Management ───────────────────────── */
+.recruiter-dashboard-page .recruiter-job-card {
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Top accent bar */
+.recruiter-dashboard-page .recruiter-job-card::before {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--grad-brand);
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-card-header > div {
+  min-width: 0;
+}
+
+.recruiter-dashboard-page .recruiter-job-card h2 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-card-header p {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-type {
+  align-self: flex-start;
+  min-height: 24px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Horizontal meta */
+.recruiter-dashboard-page .recruiter-job-card .job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: 4px;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-meta div {
+  flex: 1 1 auto;
+  min-width: 100px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border-neutral);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-meta div + div {
+  border-left: 1px solid var(--border-neutral);
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-meta dt {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--muted-light);
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-meta dd {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+/* Actions: Edit primary, Delete destructive */
+.recruiter-dashboard-page .recruiter-job-card .job-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-neutral);
+  grid-template-columns: none;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-card-actions .btn {
+  flex: 1 1 auto;
+  min-height: 38px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-card-actions .btn:first-child {
+  color: #fff;
+  background: var(--grad-brand);
+  border-color: transparent;
+  box-shadow: var(--shadow-btn);
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-card-actions .btn:first-child:hover {
+  box-shadow: 0 4px 16px rgba(99,102,241,0.38), 0 1px 4px rgba(99,102,241,0.24);
+  transform: translateY(-1px);
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-card-actions .btn:last-child {
+  color: var(--danger);
+  background: var(--danger-soft);
+  border: 1px solid var(--danger-border);
+  box-shadow: none;
+}
+
+.recruiter-dashboard-page .recruiter-job-card .job-card-actions .btn:last-child:hover {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+  transform: translateY(-1px);
+}
+
+/* ── Applicant Cards — Better Hierarchy ────────────────────── */
+.recruiter-dashboard-page #recruiterApplicantsContainer .card,
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card {
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.recruiter-dashboard-page #recruiterApplicantsContainer .card:hover,
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Top accent bar */
+.recruiter-dashboard-page #recruiterApplicantsContainer .card::before,
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card::before {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--grad-brand);
+  opacity: 0.5;
+  margin-bottom: 16px;
+}
+
+.recruiter-dashboard-page .application-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 4px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.recruiter-dashboard-page .application-card-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.recruiter-dashboard-page .application-card-header .application-company {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+/* Status badge more prominent */
+.recruiter-dashboard-page .status-badge {
+  min-height: 28px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 8px;
+  align-self: flex-start;
+}
+
+.recruiter-dashboard-page .status-badge::before {
+  width: 7px;
+  height: 7px;
+}
+
+/* Horizontal meta */
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-neutral);
+}
+
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-meta div {
+  flex: 1 1 auto;
+  min-width: 120px;
+  padding: 0 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: none;
+}
+
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-meta div + div {
+  border-top: none;
+  border-left: 1px solid var(--border-neutral);
+  padding-left: 14px;
+  padding-top: 0;
+}
+
+/* Action rows */
+.recruiter-dashboard-page .applicant-actions,
+.recruiter-dashboard-page .status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-neutral);
+  align-items: center;
+}
+
+/* Status pills */
+.recruiter-dashboard-page .status-action-button {
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+  background: transparent;
+  transition: all 140ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recruiter-dashboard-page .status-action-button[data-status="accepted"] {
+  background: var(--success-soft);
+  color: var(--success);
+  border-color: var(--success-border);
+}
+
+.recruiter-dashboard-page .status-action-button[data-status="accepted"]:hover {
+  background: var(--success);
+  color: #fff;
+  border-color: var(--success);
+}
+
+.recruiter-dashboard-page .status-action-button[data-status="rejected"] {
+  background: var(--danger-soft);
+  color: var(--danger);
+  border-color: var(--danger-border);
+}
+
+.recruiter-dashboard-page .status-action-button[data-status="rejected"]:hover {
+  background: var(--danger);
+  color: #fff;
+  border-color: var(--danger);
+}
+
+.recruiter-dashboard-page .status-action-button[data-status="shortlisted"] {
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-color: rgba(99,102,241,0.2);
+}
+
+.recruiter-dashboard-page .status-action-button[data-status="shortlisted"]:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* Resume download */
+.recruiter-dashboard-page .applicant-actions a,
+.recruiter-dashboard-page .applicant-actions button {
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary);
+  background: var(--primary-soft);
+  border: 1px solid rgba(99,102,241,0.16);
+  transition: all 140ms ease;
+}
+
+.recruiter-dashboard-page .applicant-actions a:hover,
+.recruiter-dashboard-page .applicant-actions button:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ── Empty States ──────────────────────────────────────────── */
+.recruiter-dashboard-page .recruiter-jobs-grid .empty-state,
+.recruiter-dashboard-page #recruiterApplicantsContainer .empty-state {
+  min-height: 280px;
+  background: linear-gradient(135deg, var(--surface-tint) 0%, var(--surface) 100%);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-xl);
+  gap: 16px;
+}
+
+.recruiter-dashboard-page .recruiter-jobs-grid .empty-state .empty-state-mark,
+.recruiter-dashboard-page #recruiterApplicantsContainer .empty-state .empty-state-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+}
+
+.recruiter-dashboard-page .recruiter-jobs-grid .empty-state h2,
+.recruiter-dashboard-page #recruiterApplicantsContainer .empty-state h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.recruiter-dashboard-page .recruiter-jobs-grid .empty-state p,
+.recruiter-dashboard-page #recruiterApplicantsContainer .empty-state p {
+  font-size: 14px;
+  max-width: 440px;
+}
+
+/* ── Section Headers ───────────────────────────────────────── */
+.recruiter-dashboard-page .dashboard-section {
+  margin-top: 28px;
+  padding: 28px 30px 32px;
+}
+
+.recruiter-dashboard-page .dashboard-section .section-heading {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-neutral);
+}
+
+.recruiter-dashboard-page .dashboard-section .section-heading h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.recruiter-dashboard-page .section-subheading {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-neutral);
+}
+
+.recruiter-dashboard-page .section-subheading h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .recruiter-dashboard-page .analytics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .recruiter-dashboard-page .recruiter-job-card .job-meta div {
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 680px) {
+  .recruiter-dashboard-page .analytics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .recruiter-dashboard-page .analytics-card {
+    min-height: 120px;
+    padding: 18px;
+  }
+  .recruiter-dashboard-page .user-summary {
+    min-width: 0;
+    width: 100%;
+    align-items: flex-start;
+    text-align: left;
+    flex-direction: row;
+    gap: 16px;
+    padding: 20px;
+  }
+  .recruiter-dashboard-page .user-avatar {
+    margin-bottom: 0;
+  }
+  .recruiter-dashboard-page .job-form-panel {
+    padding: 20px;
+  }
+  .recruiter-dashboard-page .recruiter-job-card .job-meta {
+    flex-direction: column;
+  }
+  .recruiter-dashboard-page .recruiter-job-card .job-meta div + div {
+    border-left: none;
+    border-top: 1px solid var(--border-neutral);
+    padding-left: 14px;
+  }
+  .recruiter-dashboard-page .recruiter-job-card .job-card-actions {
+    flex-direction: column;
+  }
+  .recruiter-dashboard-page #recruiterApplicantsContainer .application-meta {
+    flex-direction: column;
+  }
+  .recruiter-dashboard-page #recruiterApplicantsContainer .application-meta div + div {
+    border-left: none;
+    border-top: 1px solid var(--border-neutral);
+    padding-left: 0;
+    padding-top: 8px;
+  }
+  .recruiter-dashboard-page .applicant-actions,
+  .recruiter-dashboard-page .status-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* ================================================================
+   RECRUITER DASHBOARD — Minor visual tweaks
+   ================================================================ */
+
+/* 1. Center "Create and Manage Jobs" heading */
+.recruiter-dashboard-page #job-management .section-heading {
+  justify-content: center;
+}
+.recruiter-dashboard-page #job-management .section-heading > div {
+  text-align: center;
+}
+
+/* 2. Job cards — slightly stronger border & top accent */
+.recruiter-dashboard-page .recruiter-job-card {
+  border-left: 3px solid rgba(99, 102, 241, 0.22);
+}
+
+.recruiter-dashboard-page .recruiter-job-card::before {
+  opacity: 0.75;
+  height: 4px;
+}
+
+/* 3. Applicant cards — color-coded left borders by status */
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card:has(.status-accepted),
+.recruiter-dashboard-page #recruiterApplicantsContainer .card:has(.status-accepted),
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card:has(.status-selected),
+.recruiter-dashboard-page #recruiterApplicantsContainer .card:has(.status-selected) {
+  border-left: 3px solid var(--success);
+}
+
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card:has(.status-applied),
+.recruiter-dashboard-page #recruiterApplicantsContainer .card:has(.status-applied),
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card:has(.status-pending),
+.recruiter-dashboard-page #recruiterApplicantsContainer .card:has(.status-pending) {
+  border-left: 3px solid var(--warning);
+}
+
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card:has(.status-rejected),
+.recruiter-dashboard-page #recruiterApplicantsContainer .card:has(.status-rejected) {
+  border-left: 3px solid var(--danger);
+}
+
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card:has(.status-shortlisted),
+.recruiter-dashboard-page #recruiterApplicantsContainer .card:has(.status-shortlisted),
+.recruiter-dashboard-page #recruiterApplicantsContainer .application-card:has(.status-interview),
+.recruiter-dashboard-page #recruiterApplicantsContainer .card:has(.status-interview) {
+  border-left: 3px solid var(--primary);
+}
+/* ================================================================
+   RECRUITER — Full-width Create Job form
+   ================================================================ */
+
+/* Force form panel to span full section width */
+.recruiter-dashboard-page .create-job-section,
+.recruiter-dashboard-page .create-job-section .job-form-panel,
+.recruiter-dashboard-page .create-job-section .form-panel {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Form grid stretches fully */
+.recruiter-dashboard-page .create-job-section .job-form {
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Wider inputs on large screens */
+@media (min-width: 900px) {
+  .recruiter-dashboard-page .create-job-section .form-field-wide {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ================================================================
+   JOBS PAGE REDESIGN
+   Scoped to .jobs-page only. No :has(). No JS interference.
+   ================================================================ */
+
+/* ── 1. Page Heading — tighter ─────────────────────────────── */
+.jobs-page .jobs-page-heading {
+  margin-bottom: 20px;
+  padding: 24px 30px;
+}
+
+/* ── 2. Filter Panel — compact, sticky, glass ──────────────── */
+.jobs-page .jobs-filter-panel {
+  position: sticky;
+  top: calc(var(--nav-h) + 8px);
+  z-index: 40;
+  padding: 16px 24px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--border-neutral);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+  display: grid;
+  gap: 12px;
+}
+
+.jobs-page .jobs-filter-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-neutral);
+}
+
+.jobs-page .jobs-filter-heading h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.jobs-page .jobs-filter-heading .eyebrow {
+  margin-bottom: 4px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.jobs-page .jobs-result-count {
+  margin: 0;
+  padding: 5px 14px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.jobs-page .jobs-filter-controls {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  grid-template-columns: none;
+}
+
+.jobs-page .job-search-field {
+  flex: 1 1 auto;
+  min-width: 220px;
+  display: grid;
+  gap: 6px;
+}
+
+.jobs-page .job-filter-field {
+  flex: 0 0 150px;
+  min-width: 130px;
+  display: grid;
+  gap: 6px;
+}
+
+.jobs-page .job-search-field label,
+.jobs-page .job-filter-field label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.jobs-page .job-search-field input,
+.jobs-page .job-filter-field select {
+  min-height: 40px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1.5px solid var(--border-strong);
+  color: var(--text);
+  outline: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.jobs-page .job-search-field input:hover,
+.jobs-page .job-filter-field select:hover {
+  border-color: rgba(99,102,241,0.3);
+}
+
+.jobs-page .job-search-field input:focus,
+.jobs-page .job-filter-field select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* ── 3. Job Grid — responsive masonry ─────────────────────── */
+.jobs-page .jobs-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 20px;
+}
+
+/* ── 4. Job Cards — Premium Hiring Cards ─────────────────── */
+.jobs-page .job-card {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border-neutral);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 220ms ease;
+}
+
+.jobs-page .job-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(99,102,241,0.18);
+}
+
+/* Top accent bar */
+.jobs-page .job-card::before {
+  content: "";
+  display: block;
+  height: 4px;
+  width: 100%;
+  background: var(--grad-brand);
+  opacity: 0.6;
+}
+
+/* Card inner spacing */
+.jobs-page .job-card > * {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* ── Card Header ───────────────────────────────────────────── */
+.jobs-page .job-card-header {
+  padding-top: 20px;
+  padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-neutral);
+}
+
+/* Company avatar placeholder (CSS-only, varied per card) */
+.jobs-page .job-card-header::before {
+  content: "";
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--grad-brand);
+  box-shadow: var(--shadow-btn);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.jobs-page .job-card:nth-child(5n+2) .job-card-header::before {
+  background: linear-gradient(135deg, #0EA5E9, #22D3EE);
+}
+
+.jobs-page .job-card:nth-child(5n+3) .job-card-header::before {
+  background: linear-gradient(135deg, #F59E0B, #FBBF24);
+}
+
+.jobs-page .job-card:nth-child(5n+4) .job-card-header::before {
+  background: linear-gradient(135deg, #10B981, #34D399);
+}
+
+.jobs-page .job-card:nth-child(5n+5) .job-card-header::before {
+  background: linear-gradient(135deg, #F43F5E, #FB7185);
+}
+
+/* Company name */
+.jobs-page .job-card-header p {
+  order: -1;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+  margin: 0;
+}
+
+/* Job title */
+.jobs-page .job-card-header h2 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  margin: 0;
+  color: var(--text);
+}
+
+/* Job type badge — absolute top-right */
+.jobs-page .job-card .job-type {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  min-height: 26px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-neutral);
+  color: var(--text-soft);
+  max-width: none;
+}
+
+/* ── Meta — horizontal pills ──────────────────────────────── */
+.jobs-page .job-card .job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.jobs-page .job-card .job-meta div {
+  flex: 1 1 auto;
+  min-width: 90px;
+  padding: 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: none;
+}
+
+.jobs-page .job-card .job-meta div + div {
+  border-top: none;
+  border-left: 1px solid var(--border-neutral);
+  padding-top: 0;
+}
+
+.jobs-page .job-card .job-meta dt {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-light);
+}
+
+.jobs-page .job-card .job-meta dd {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-soft);
+  line-height: 1.4;
+}
+
+/* ── Skills — compact ────────────────────────────────────── */
+.jobs-page .job-card .skills-list {
+  padding-top: 0;
+  padding-bottom: 16px;
+  gap: 6px;
+}
+
+.jobs-page .job-card .skills-list span {
+  min-height: 24px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-neutral);
+  color: var(--text-soft);
+  border-radius: var(--radius-pill);
+}
+
+/* ── 5. Resume Upload — Modern Drop Zone ─────────────────── */
+.jobs-page .job-card .application-controls {
+  position: relative;
+  margin: 0 24px 24px;
+  padding: 16px;
+  background: var(--surface-muted);
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  display: grid;
+  gap: 10px;
+  overflow: hidden;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.jobs-page .job-card .application-controls:hover {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+/* Hidden but functional file input covering the drop zone area */
+.jobs-page .job-card .resume-file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(100% - 56px);
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Upload label / heading */
+.jobs-page .job-card .application-controls-heading {
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.jobs-page .job-card .application-controls-heading::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='17 8 12 3 7 8'/%3E%3Cline x1='12' y1='3' x2='12' y2='15'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.6;
+}
+
+.jobs-page .job-card .application-controls-heading span {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Selected filename */
+.jobs-page .job-card .selected-file-name {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  min-height: auto;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.jobs-page .job-card .selected-file-name.file-error {
+  color: var(--danger);
+}
+
+/* Apply button — full width, sits below the drop zone */
+.jobs-page .job-card .apply-button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  position: relative;
+  z-index: 3;
+}
+
+/* ── 6. Empty State ───────────────────────────────────────── */
+.jobs-page .jobs-grid .empty-state {
+  min-height: 320px;
+  background: linear-gradient(135deg, var(--surface-tint) 0%, var(--surface) 100%);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-xl);
+  gap: 16px;
+}
+
+.jobs-page .jobs-grid .empty-state .empty-state-mark {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+}
+
+.jobs-page .jobs-grid .empty-state h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.jobs-page .jobs-grid .empty-state p {
+  font-size: 14px;
+  max-width: 440px;
+}
+
+/* ── 7. Loading Card ─────────────────────────────────────── */
+.jobs-page .jobs-grid .loading-card {
+  min-height: 200px;
+  border: 1px dashed var(--border-neutral);
+}
+
+/* ── 8. Responsive ───────────────────────────────────────── */
+@media (max-width: 900px) {
+  .jobs-page .jobs-filter-panel {
+    position: static;
+    flex-wrap: wrap;
+  }
+  .jobs-page .job-search-field {
+    min-width: 100%;
+    flex-basis: 100%;
+  }
+  .jobs-page .job-filter-field {
+    flex: 1 1 auto;
+  }
+  .jobs-page .jobs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .jobs-page .jobs-page-heading {
+    padding: 20px 22px;
+  }
+  .jobs-page .jobs-filter-panel {
+    padding: 14px 18px;
+  }
+  .jobs-page .jobs-filter-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .jobs-page .jobs-result-count {
+    align-self: flex-start;
+  }
+  .jobs-page .jobs-grid {
+    grid-template-columns: 1fr;
+  }
+  .jobs-page .job-card .job-meta {
+    flex-direction: column;
+  }
+  .jobs-page .job-card .job-meta div + div {
+    border-left: none;
+    border-top: 1px solid var(--border-neutral);
+    padding-top: 8px;
+  }
+  .jobs-page .job-card .job-card-header::before {
+    width: 36px;
+    height: 36px;
+  }
+  .jobs-page .job-card .job-type {
+    top: 18px;
+    right: 18px;
+  }
+}
+
+/* ================================================================
+   LANDING PAGE REDESIGN
+   Scoped to .landing-page only
+   ================================================================ */
+
+/* ── Hero — premium ambient background ─────────────────────── */
+.landing-page .hero {
+  position: relative;
+  background: linear-gradient(135deg, #F5F7FF 0%, #FFFFFF 50%, #FAFBFF 100%);
+  overflow: hidden;
+  padding: 100px 0 80px;
+  gap: 64px;
+}
+
+.landing-page .hero::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.landing-page .hero::after {
+  content: "";
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.landing-page .hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-page .hero-kicker {
+  margin-bottom: 28px;
+}
+
+.landing-page .hero-kicker span {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(99,102,241,0.15);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+}
+
+.landing-page .hero-content > .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.landing-page .hero-content h1 {
+  font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+  line-height: 1.05;
+  margin-bottom: 24px;
+  max-width: 680px;
+}
+
+.landing-page .hero-text {
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 560px;
+  margin-bottom: 36px;
+  color: var(--muted);
+}
+
+.landing-page .hero-actions {
+  gap: 14px;
+}
+
+.landing-page .hero-actions .btn {
+  min-height: 48px;
+  padding: 0 28px;
+  font-size: 15px;
+}
+
+.landing-page .hero-preview {
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.9);
+  box-shadow: var(--shadow-xl);
+  padding: 28px;
+  border-radius: var(--radius-2xl);
+}
+
+.landing-page .hero-preview::before {
+  background: linear-gradient(135deg, rgba(99,102,241,0.08), transparent 45%);
+}
+
+.landing-page .preview-stat {
+  padding: 22px;
+  border-radius: var(--radius-lg);
+}
+
+.landing-page .preview-stat strong {
+  font-size: 2.4rem;
+}
+
+.landing-page .preview-job {
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+}
+
+/* ── Stats Section ─────────────────────────────────────────── */
+.landing-page .stats-section {
+  padding: 60px 0;
+  position: relative;
+}
+
+.landing-page .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.landing-page .stat-card {
+  position: relative;
+  padding: 32px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border-neutral);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  overflow: hidden;
+}
+
+.landing-page .stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.landing-page .stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--grad-brand);
+  opacity: 0.6;
+}
+
+.landing-page .stat-card:nth-child(2)::before { background: var(--card-b); }
+.landing-page .stat-card:nth-child(3)::before { background: var(--card-d); }
+.landing-page .stat-card:nth-child(4)::before { background: var(--card-c); }
+
+.landing-page .stat-card strong {
+  display: block;
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.landing-page .stat-card span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ── Features Section ──────────────────────────────────────── */
+.landing-page .features-section {
+  padding: 80px 0;
+  position: relative;
+}
+
+.landing-page .features-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(99,102,241,0.03) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+.landing-page .section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 56px;
+}
+
+.landing-page .section-header .eyebrow {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.landing-page .section-header h2 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+}
+
+.landing-page .section-header p {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.landing-page .feature-grid {
+  gap: 24px;
+}
+
+.landing-page .feature-card {
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-neutral);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.landing-page .feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(99,102,241,0.2);
+}
+
+.landing-page .feature-card::before {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  background: var(--grad-brand);
+  box-shadow: var(--shadow-sm);
+}
+
+.landing-page .feature-card:nth-child(2)::before {
+  background: linear-gradient(135deg, #0EA5E9, #22D3EE);
+}
+
+.landing-page .feature-card:nth-child(3)::before {
+  background: linear-gradient(135deg, #10B981, #34D399);
+}
+
+.landing-page .feature-card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.landing-page .feature-card p {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ── Journey Sections ──────────────────────────────────────── */
+.landing-page .journey-section {
+  padding: 80px 0;
+}
+
+.landing-page .journey-section.alt-bg {
+  background: linear-gradient(180deg, var(--surface-tint) 0%, var(--bg) 100%);
+}
+
+.landing-page .journey-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 48px;
+}
+
+.landing-page .journey-card {
+  position: relative;
+  padding: 32px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border-neutral);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.landing-page .journey-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.landing-page .journey-step {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  border: 1px solid rgba(99,102,241,0.2);
+}
+
+.landing-page .journey-card:nth-child(2) .journey-step { background: rgba(14,165,233,0.1); color: var(--card-b); border-color: rgba(14,165,233,0.2); }
+.landing-page .journey-card:nth-child(3) .journey-step { background: rgba(16,185,129,0.1); color: var(--card-d); border-color: rgba(16,185,129,0.2); }
+.landing-page .journey-card:nth-child(4) .journey-step { background: rgba(245,158,11,0.1); color: var(--card-c); border-color: rgba(245,158,11,0.2); }
+
+.landing-page .journey-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+
+.landing-page .journey-card p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Connector line between steps (desktop only) */
+@media (min-width: 900px) {
+  .landing-page .journey-grid {
+    position: relative;
+  }
+  .landing-page .journey-grid::before {
+    content: "";
+    position: absolute;
+    top: 52px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-neutral) 0%, var(--primary-mid) 50%, var(--border-neutral) 100%);
+    z-index: 0;
+  }
+  .landing-page .journey-card {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* ── Testimonials ─────────────────────────────────────────── */
+.landing-page .testimonials-section {
+  padding: 80px 0;
+}
+
+.landing-page .testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.landing-page .testimonial-card {
+  padding: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border-neutral);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.landing-page .testimonial-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.landing-page .testimonial-card::before {
+  content: "\201C";
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--primary);
+  opacity: 0.1;
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+
+.landing-page .testimonial-quote {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--text-soft);
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.landing-page .testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.landing-page .testimonial-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--grad-brand);
+  flex-shrink: 0;
+}
+
+.landing-page .testimonial-card:nth-child(2) .testimonial-avatar {
+  background: linear-gradient(135deg, #0EA5E9, #22D3EE);
+}
+
+.landing-page .testimonial-card:nth-child(3) .testimonial-avatar {
+  background: linear-gradient(135deg, #10B981, #34D399);
+}
+
+.landing-page .testimonial-author strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.landing-page .testimonial-author span {
+  font-size: 12.5px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* ── Final CTA ─────────────────────────────────────────────── */
+.landing-page .cta-section {
+  padding: 100px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-page .cta-banner {
+  position: relative;
+  padding: 64px 48px;
+  background: linear-gradient(135deg, var(--primary-strong) 0%, #8B5CF6 100%);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+}
+
+.landing-page .cta-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.landing-page .cta-banner h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+  position: relative;
+}
+
+.landing-page .cta-banner p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.85);
+  max-width: 560px;
+  margin: 0 auto 32px;
+  line-height: 1.7;
+  position: relative;
+}
+
+.landing-page .cta-banner .btn {
+  position: relative;
+  min-height: 52px;
+  padding: 0 36px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.landing-page .cta-banner .btn-primary {
+  background: #fff;
+  color: var(--primary-strong);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.landing-page .cta-banner .btn-primary:hover {
+  background: #f8f8ff;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+}
+
+.landing-page .cta-banner .btn-secondary {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+}
+
+.landing-page .cta-banner .btn-secondary:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.4);
+}
+
+.landing-page .cta-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .landing-page .hero {
+    grid-template-columns: 1fr;
+    padding: 60px 0 60px;
+  }
+  .landing-page .hero-preview {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 900px) {
+  .landing-page .stats-grid,
+  .landing-page .journey-grid,
+  .landing-page .testimonials-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .landing-page .journey-grid::before {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .landing-page .hero {
+    padding: 40px 0 40px;
+    gap: 40px;
+  }
+  .landing-page .hero-content h1 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+  .landing-page .hero-text {
+    font-size: 16px;
+  }
+  .landing-page .stats-grid,
+  .landing-page .journey-grid,
+  .landing-page .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  .landing-page .feature-grid {
+    grid-template-columns: 1fr;
+  }
+  .landing-page .cta-banner {
+    padding: 48px 28px;
+  }
+  .landing-page .cta-banner h2 {
+    font-size: 1.8rem;
+  }
+  .landing-page .stat-card strong {
+    font-size: 2rem;
+  }
+  .landing-page .section-header {
+    margin-bottom: 36px;
+  }
+}
+
+/* ================================================================
+   LOGIN PAGE — Premium Authentication Experience
+   Scoped to .auth-page only
+   ================================================================ */
+
+/* ── Layout: immersive split-screen ─────────────────────────── */
+.auth-page {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-page .site-header {
+  position: relative;
+  background: transparent;
+  border-bottom: 1px solid var(--border-neutral);
+  box-shadow: none;
+}
+
+.auth-page .page-shell {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-page .auth-shell {
+  min-height: auto;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: stretch;
+  gap: 0;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0;
+}
+
+/* ── Left Side: Branding ───────────────────────────────────── */
+.auth-page .auth-aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 64px;
+  border-radius: 0;
+  border: none;
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A78BFA 100%);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.auth-page .auth-aside::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.auth-page .auth-aside::after {
+  content: "";
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Abstract shapes */
+.auth-page .auth-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.auth-page .auth-shape {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.auth-page .auth-shape-1 {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  right: -60px;
+  background: rgba(255,255,255,0.06);
+}
+
+.auth-page .auth-shape-2 {
+  width: 180px;
+  height: 180px;
+  bottom: 15%;
+  left: -40px;
+  background: rgba(255,255,255,0.04);
+}
+
+.auth-page .auth-aside .eyebrow {
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.auth-page .auth-aside h1 {
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  max-width: 480px;
+  position: relative;
+  letter-spacing: -0.03em;
+}
+
+.auth-page .auth-aside p:last-child {
+  color: rgba(255,255,255,0.75);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 440px;
+  position: relative;
+}
+
+/* ── Right Side: Form Card ─────────────────────────────────── */
+.auth-page .auth-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 48px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.auth-page .auth-card-header {
+  margin-bottom: 32px;
+}
+
+.auth-page .auth-card h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.auth-page .auth-card > p:first-of-type {
+  color: var(--muted);
+  font-size: 14.5px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* ── Form Styling ─────────────────────────────────────────── */
+.auth-page #loginForm {
+  margin-top: 28px;
+  gap: 20px;
+}
+
+.auth-page #loginForm label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-soft);
+  margin-bottom: 2px;
+}
+
+.auth-page #loginForm input[type="email"],
+.auth-page #loginForm input[type="password"] {
+  min-height: 48px;
+  padding: 0 16px;
+  font-size: 14px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+  width: 100%;
+}
+
+.auth-page #loginForm input[type="email"]:hover,
+.auth-page #loginForm input[type="password"]:hover {
+  border-color: rgba(99,102,241,0.35);
+}
+
+.auth-page #loginForm input[type="email"]:focus,
+.auth-page #loginForm input[type="password"]:focus {
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 4px var(--ring);
+  outline: none;
+}
+
+/* ── Remember & Forgot ─────────────────────────────────────── */
+.auth-page .form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: -4px;
+}
+
+.auth-page .checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  user-select: none;
+}
+
+/* Hide native checkbox but keep it accessible */
+.auth-page .checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  min-height: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.auth-page .checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 5px;
+  background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 140ms ease;
+  flex-shrink: 0;
+}
+
+.auth-page .checkbox-label input:checked + .checkbox-custom {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.auth-page .checkbox-custom::after {
+  content: "";
+  width: 5px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+  opacity: 0;
+  transition: opacity 140ms ease;
+}
+
+.auth-page .checkbox-label input:checked + .checkbox-custom::after {
+  opacity: 1;
+}
+
+.auth-page .forgot-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  transition: color 140ms ease;
+}
+
+.auth-page .forgot-link:hover {
+  color: var(--primary-strong);
+  text-decoration: underline;
+}
+
+/* ── Submit Button ─────────────────────────────────────────── */
+.auth-page #loginButton {
+  width: 100%;
+  min-height: 48px;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+/* ── Auth Footer (Register link) ───────────────────────────── */
+.auth-page .auth-footer {
+  margin-top: 28px;
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-neutral);
+}
+
+.auth-page .auth-footer p {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+  margin: 0;
+}
+
+.auth-page .auth-footer a {
+  color: var(--primary);
+  font-weight: 700;
+  transition: color 140ms ease;
+}
+
+.auth-page .auth-footer a:hover {
+  color: var(--primary-strong);
+  text-decoration: underline;
+}
+
+/* ── Message Banner ────────────────────────────────────────── */
+.auth-page #loginMessage {
+  margin: 0 0 20px;
+  border-radius: var(--radius);
+}
+
+/* ── Footer override ───────────────────────────────────────── */
+.auth-page .site-footer {
+  margin-top: 0;
+  background: transparent;
+  border-top: 1px solid var(--border-neutral);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .auth-page .auth-shell {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    padding: 0 20px;
+  }
+  
+  .auth-page .auth-aside {
+    padding: 48px 40px;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .auth-page .auth-aside h1,
+  .auth-page .auth-aside p:last-child {
+    max-width: 100%;
+  }
+  
+  .auth-page .auth-shape-1,
+  .auth-page .auth-shape-2 {
+    display: none;
+  }
+  
+  .auth-page .auth-card {
+    padding: 40px 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 680px) {
+  .auth-page .auth-aside {
+    padding: 36px 28px;
+  }
+  
+  .auth-page .auth-aside h1 {
+    font-size: 2rem;
+  }
+  
+  .auth-page .auth-card {
+    padding: 32px 0;
+  }
+  
+  .auth-page .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
   }
 }

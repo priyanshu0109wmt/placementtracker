@@ -1,5 +1,8 @@
 const applicationsContainer = document.getElementById("applicationsContainer");
 const applicationsMessage = document.getElementById("applicationsMessage");
+const statApplications = document.getElementById("statApplications");
+const statAccepted = document.getElementById("statAccepted");
+const statPending = document.getElementById("statPending");
 
 document.addEventListener("DOMContentLoaded", () => {
   if (!canLoadStudentApplications()) {
@@ -27,6 +30,8 @@ async function loadStudentApplications() {
 }
 
 function renderApplications(applications) {
+  updateApplicationStats(applications);
+
   if (!applicationsContainer) {
     return;
   }
@@ -43,6 +48,28 @@ function renderApplications(applications) {
   }
 
   applicationsContainer.innerHTML = applications.map(renderApplicationCard).join("");
+}
+
+function updateApplicationStats(applications) {
+  const acceptedCount = applications.filter((application) => {
+    return getNormalizedStatus(application.status) === "accepted";
+  }).length;
+  const pendingCount = applications.filter((application) => {
+    const status = getNormalizedStatus(application.status);
+    return status === "applied" || status === "shortlisted";
+  }).length;
+
+  if (statApplications) {
+    statApplications.textContent = applications.length;
+  }
+
+  if (statAccepted) {
+    statAccepted.textContent = acceptedCount;
+  }
+
+  if (statPending) {
+    statPending.textContent = pendingCount;
+  }
 }
 
 function renderApplicationCard(application) {
@@ -146,6 +173,10 @@ function formatStatus(status) {
 
 function getStatusClass(status) {
   return String(status || "pending").toLowerCase().replaceAll("_", "-");
+}
+
+function getNormalizedStatus(status) {
+  return String(status || "").toLowerCase().trim();
 }
 
 function escapeHtml(value) {

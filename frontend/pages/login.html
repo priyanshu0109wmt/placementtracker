@@ -19,14 +19,20 @@
 
   <main class="page-shell container auth-shell">
     <aside class="auth-aside">
+      <div class="auth-shapes" aria-hidden="true">
+        <div class="auth-shape auth-shape-1"></div>
+        <div class="auth-shape auth-shape-2"></div>
+      </div>
       <p class="eyebrow">Welcome back</p>
       <h1>Continue your placement workflow.</h1>
       <p>Access dashboards, jobs, applications, and hiring updates from a focused workspace.</p>
     </aside>
 
     <section class="form-panel auth-card">
-      <h1>Login</h1>
-      <p>Login with your registered account to continue to your dashboard.</p>
+      <div class="auth-card-header">
+        <h1>Login</h1>
+        <p>Login with your registered account to continue to your dashboard.</p>
+      </div>
 
       <div class="message" id="loginMessage" role="status" aria-live="polite"></div>
 
@@ -37,8 +43,21 @@
         <label for="password">Password</label>
         <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
 
+        <div class="form-options">
+          <label class="checkbox-label">
+            <input type="checkbox" name="remember" id="rememberMe">
+            <span class="checkbox-custom"></span>
+            Remember me
+          </label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+
         <button class="btn btn-primary" id="loginButton" type="submit">Login</button>
       </form>
+
+      <div class="auth-footer">
+        <p>Don't have an account? <a href="./register.html">Register</a></p>
+      </div>
     </section>
   </main>
 
